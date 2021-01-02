@@ -1,0 +1,5 @@
+# Ignore the database directory, where the connection is made and there are some queries
+database/
+
+# Tests directory
+tsts/
