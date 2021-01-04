@@ -103,6 +103,12 @@
     <Compile Include="Boxes\AddNonIdtfdTaxon.Designer.cs">
       <DependentUpon>AddNonIdtfdTaxon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boxes\ChooseExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Boxes\ChooseExport.Designer.cs">
+      <DependentUpon>ChooseExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boxes\Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,6 +236,9 @@
     <Compile Include="Validation\ControlValidation.cs" />
     <EmbeddedResource Include="Boxes\AddNonIdtfdTaxon.resx">
       <DependentUpon>AddNonIdtfdTaxon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Boxes\ChooseExport.resx">
+      <DependentUpon>ChooseExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Boxes\EditArea.resx">
       <DependentUpon>EditArea.cs</DependentUpon>

@@ -180,19 +180,31 @@ namespace Evaseac
                     break;
                 }
             
-            if (ucpSites.idTemps.Count == 0)
-                MessageBox.Show("Elija primero los sitios en el apartado de 'Sitios'", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else if (!exist && ucpSites.idTemps.Count == 1)
-                MessageBox.Show("El sitio elegido no tiene parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else if (!exist && ucpSites.idTemps.Count > 1)
-                MessageBox.Show("Los sitios elegidos no tienen parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (exist)
-                using (frmExport frm = new frmExport())
-                {
-                    frm.idTemps = ucpSites.idTemps;
-                    if (frm.ShowDialog() == DialogResult.OK)
-                        MessageBox.Show("Operacion relizada correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+            using (Boxes.ChooseExport frm = new Boxes.ChooseExport())
+            {
+                var result = frm.ShowDialog();
+
+                if (result == DialogResult.OK)
+                    MessageBox.Show("xl selected");
+                else if (result == DialogResult.Yes)
+                    MessageBox.Show("csv selected");
+                else
+                    MessageBox.Show("Nothing selected");
+            }
+
+            //if (ucpSites.idTemps.Count == 0)
+            //    MessageBox.Show("Elija primero los sitios en el apartado de 'Sitios'", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //else if (!exist && ucpSites.idTemps.Count == 1)
+            //    MessageBox.Show("El sitio elegido no tiene parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //else if (!exist && ucpSites.idTemps.Count > 1)
+            //    MessageBox.Show("Los sitios elegidos no tienen parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //if (exist)
+            //    using (frmExport frm = new frmExport())
+            //    {
+            //        frm.idTemps = ucpSites.idTemps;
+            //        if (frm.ShowDialog() == DialogResult.OK)
+            //            MessageBox.Show("Operacion relizada correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    }
         }
 
 
