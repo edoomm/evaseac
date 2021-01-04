@@ -183,9 +183,9 @@ namespace Evaseac
             if (ucpSites.idTemps.Count == 0)
                 MessageBox.Show("Elija primero los sitios en el apartado de 'Sitios'", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else if (!exist && ucpSites.idTemps.Count == 1)
-                MessageBox.Show("El sitio elegido no tiene parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' o 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("El sitio elegido no tiene parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else if (!exist && ucpSites.idTemps.Count > 1)
-                MessageBox.Show("Los sitios elegidos no tienen parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' o 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Los sitios elegidos no tienen parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (exist)
                 using (frmExport frm = new frmExport())
                 {
