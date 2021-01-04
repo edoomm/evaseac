@@ -1,8 +1,12 @@
-﻿using Evaseac.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
+using Debug = System.Diagnostics.Debug;
 
 namespace Evaseac
 {
@@ -77,12 +81,53 @@ namespace Evaseac
         }
 
         /// <summary>
-        /// It will save in the desktop folder 19 csv files which represent each table that the Data Base contains.
+        /// It will save in the desktop folder 1 csv file with all the information in the 19 tables the Data Base has.
+        /// Each table will be separeted as the following: -[tableName]-
         /// This will help updating the remote info with local changes which users do.
         /// </summary>
         private void csvExport()
         {
-            MessageBox.Show("Here it will do the csv export");
+            string[] tableNames = {"area", "clase", "familia", "familiassitios", "genero", "generossitios", "imagenes", "miembro", "orden", "parametros",
+                "parametroscrudo", "parametrosp", "parametrospsitios", "proyecto", "prueba", "publicacion", "sitio", "temporada", "usuario" };
+
+            // Joining data into CSV string
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string tableName in tableNames)
+            {
+                DataTable dt = DB.Select("SELECT * FROM " + tableName);
+                IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+
+                // table names will have the following format -area-
+                sb.AppendLine("-" + tableName + "-");
+                // table info will have the csv common format
+                sb.AppendLine(string.Join(",", columnNames));
+                foreach (DataRow row in dt.Rows)
+                {
+                    IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                    sb.AppendLine(string.Join(",", fields));
+                }
+            }
+
+            // Creating file in desktop folder
+            try
+            {
+                string strPath = Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+                string fileName = DateTime.Today.ToString("yyyy-MM-dd") + "-evdb.csv";
+                string filePath = strPath + "\\" + fileName;
+                Debug.WriteLine(filePath);
+                FileStream fs = new FileStream(strPath + "\\" + fileName, FileMode.OpenOrCreate, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.BaseStream.Seek(0, SeekOrigin.End);
+                sw.Write(sb.ToString());
+                sw.Flush();
+                sw.Close();
+                MessageBox.Show("Archivo .csv creado correctamente en el escritorio de este ordenador." +
+                    "\n\nLocación del archivo: " + filePath, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } catch (Exception e)
+            {
+                MessageBox.Show("Archivo CSV no fue podido crear\n\nException:\n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion
@@ -210,7 +255,7 @@ namespace Evaseac
             else
                 new frmConfig().Show();
         }
-
+        
         private void btnExport_Click(object sender, EventArgs e)
         {
             Boxes.ChooseExport frm = new Boxes.ChooseExport();
