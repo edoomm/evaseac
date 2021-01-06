@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -11,6 +15,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Dropzone -->
+    <link rel="stylesheet" href="../../css/dropzone.min.css">
     <!-- Icon -->
     <link rel="icon" href="../../imgs/Evaseac.ico">
 </head>
@@ -53,6 +59,22 @@
         </div>
     </div>
 
+    <div class="container" style="padding-top: 5%;">
+        <div class="row justify-content-center">
+            <h2>Actualización de la base de datos</h2>
+        </div>
+
+        <form action="#" class="dropzone">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+            </div>
+        </form>
+        <div class="row justify-content-center" style="padding-top: 15px;">
+            <input class="btn btn-primary" type="button" value="Actualizar">
+        </div>
+    </div>
+
+
     <div class="scripts">
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -63,33 +85,55 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
+        <script src="../../js/dropzone.min.js"></script>
     </div>
 </body>
 
 </html>
 
 <script>
+    var validAuth = false;
+
     $(document).ready(function () {
         // showing auth modal
-        $("#authModalButton").click();
+        if ("<?php echo isset($_SESSION["user "]); ?>" != "1")
+            $("#authModalButton").click();
+
+        Dropzone.maxFiles = 1;
     });
 
     // closing event from Modal
     $('#authModal').on('hidden.bs.modal', function (e) {
         // verify authentication
+
+        if (validAuth) {
+            return;
+        }
+
+        // invalid
         alert("Necesita autenticarse para poder usar esta página");
-        $('#authModal').modal('show')
+        $('#authModal').modal('show');
     })
 
-    $("#btnAuth").click(function(){
+    // authentication
+    $("#btnAuth").click(function () {
         $.ajax({
             url: "./auth.php",
             method: "POST",
-            data: {user: $("#user").val(), password: $("#password").val()},
+            data: {
+                user: $("#user").val(),
+                password: $("#password").val()
+            },
             cache: false,
             success: function (respax) {
-                alert(respax);
+                if (respax == "true") {
+                    validAuth = true;
+                    $('#authModal').modal('hide');
+                } else {
+                    alert("Autenticación fallida: Usuario y/o contraseña incorrectas");
+                }
             }
         });
     });
+
 </script>

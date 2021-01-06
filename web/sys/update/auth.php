@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include_once '../../database/evaseacdb.php';
 $conn = open_database();
 
@@ -11,9 +13,14 @@ $numRows = mysqli_num_rows(mysqli_query($conn, $query));
 
 mysqli_close($conn);
 
-if ($numRows == 1)
+unset($_SESSION["user"]);
+
+if ($numRows == 1) {
+    $_SESSION["user"] = $user;
     echo "true";
-else
+}
+else {
     echo "false";
+}
 
 ?>
