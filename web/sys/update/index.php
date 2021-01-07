@@ -15,8 +15,6 @@ session_start();
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Dropzone -->
-    <link rel="stylesheet" href="../../css/dropzone.min.css">
     <!-- Icon -->
     <link rel="icon" href="../../imgs/Evaseac.ico">
 </head>
@@ -59,19 +57,20 @@ session_start();
         </div>
     </div>
 
-    <div class="container" style="padding-top: 5%;">
-        <div class="row justify-content-center">
-            <h2>Actualización de la base de datos</h2>
-        </div>
+    <div class="jumbotron justify-content-center">
+        <h2>Actualización de la base de datos</h2>
+    </div>
 
-        <form action="#" class="dropzone">
-            <div class="fallback">
-                <input name="file" type="file" multiple />
+    <div class="container" style="padding-top: 5%;">
+        <form>
+            <div class="form-group">
+                <label for="csvfile">Escoja su archivo CSV que actualizará la base de datos en el servidor</label>
+                <input type="file" class="form-control-file" id="csvfile">
             </div>
+            <div class="row" style="padding-top: 15px;">
+                <input class="btn btn-primary" type="button" value="Actualizar" id="btnUpload">
+            </div>    
         </form>
-        <div class="row justify-content-center" style="padding-top: 15px;">
-            <input class="btn btn-primary" type="button" value="Actualizar">
-        </div>
     </div>
 
 
@@ -85,7 +84,6 @@ session_start();
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
-        <script src="../../js/dropzone.min.js"></script>
     </div>
 </body>
 
@@ -96,10 +94,8 @@ session_start();
 
     $(document).ready(function () {
         // showing auth modal
-        if ("<?php echo isset($_SESSION["user "]); ?>" != "1")
-            $("#authModalButton").click();
-
-        Dropzone.maxFiles = 1;
+        // if ("<?php echo isset($_SESSION["user "]); ?>" != "1")
+        //     $("#authModalButton").click();
     });
 
     // closing event from Modal
@@ -134,6 +130,13 @@ session_start();
                 }
             }
         });
+    });
+
+    $("#btnUpload").click(function (){
+        var file = $("#csvFile")[0].files[0];
+        if (file) {
+            console.log(file.name);
+        }
     });
 
 </script>
