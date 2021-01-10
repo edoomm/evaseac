@@ -456,11 +456,11 @@
             // 
             this.lblAmRule.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblAmRule.AutoSize = true;
-            this.lblAmRule.Font = new System.Drawing.Font("Adobe Devanagari", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAmRule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAmRule.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.lblAmRule.Location = new System.Drawing.Point(6, 279);
             this.lblAmRule.Name = "lblAmRule";
-            this.lblAmRule.Size = new System.Drawing.Size(674, 18);
+            this.lblAmRule.Size = new System.Drawing.Size(785, 16);
             this.lblAmRule.TabIndex = 20;
             this.lblAmRule.Text = "_________________________________________________________________________________" +
     "______________________________";
@@ -516,11 +516,11 @@
             // 
             this.lblEmRuler.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblEmRuler.AutoSize = true;
-            this.lblEmRuler.Font = new System.Drawing.Font("Adobe Devanagari", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmRuler.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmRuler.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.lblEmRuler.Location = new System.Drawing.Point(5, 54);
             this.lblEmRuler.Name = "lblEmRuler";
-            this.lblEmRuler.Size = new System.Drawing.Size(674, 18);
+            this.lblEmRuler.Size = new System.Drawing.Size(785, 16);
             this.lblEmRuler.TabIndex = 39;
             this.lblEmRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
@@ -819,6 +819,7 @@
             // 
             // lblApCoverUrl
             // 
+            this.lblApCoverUrl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblApCoverUrl.AutoSize = true;
             this.lblApCoverUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblApCoverUrl.Location = new System.Drawing.Point(195, 136);
@@ -902,11 +903,11 @@
             // 
             this.lblApRule.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblApRule.AutoSize = true;
-            this.lblApRule.Font = new System.Drawing.Font("Adobe Devanagari", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblApRule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblApRule.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.lblApRule.Location = new System.Drawing.Point(6, 217);
             this.lblApRule.Name = "lblApRule";
-            this.lblApRule.Size = new System.Drawing.Size(674, 18);
+            this.lblApRule.Size = new System.Drawing.Size(785, 16);
             this.lblApRule.TabIndex = 23;
             this.lblApRule.Text = "_________________________________________________________________________________" +
     "______________________________";
@@ -1189,11 +1190,11 @@
             // 
             this.lblEpRuler.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblEpRuler.AutoSize = true;
-            this.lblEpRuler.Font = new System.Drawing.Font("Adobe Devanagari", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEpRuler.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEpRuler.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.lblEpRuler.Location = new System.Drawing.Point(5, 54);
             this.lblEpRuler.Name = "lblEpRuler";
-            this.lblEpRuler.Size = new System.Drawing.Size(674, 18);
+            this.lblEpRuler.Size = new System.Drawing.Size(785, 16);
             this.lblEpRuler.TabIndex = 40;
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";

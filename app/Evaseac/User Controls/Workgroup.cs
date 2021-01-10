@@ -615,6 +615,8 @@ namespace Evaseac.User_Controls
 
         private void btnApChooseDriveFile_Click(object sender, EventArgs e)
         {
+            APIv3.IntializeGDApi();
+
             using (frmGoogleDriveFiles form = new frmGoogleDriveFiles())
             {
                 if (form.ShowDialog() == DialogResult.OK)

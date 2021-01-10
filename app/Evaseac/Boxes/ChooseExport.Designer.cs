@@ -112,6 +112,7 @@ namespace Evaseac.Boxes
             this.lnkUpdate.TabStop = true;
             this.lnkUpdate.Text = "en la página";
             this.lnkUpdate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lnkUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUpdate_LinkClicked);
             // 
             // lblCSVDesc
             // 

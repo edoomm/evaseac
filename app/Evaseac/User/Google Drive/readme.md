@@ -60,10 +60,6 @@ After this, you can download your **client_secret.json**. **It will have another
 
 ![download-oauth!](https://lh3.googleusercontent.com/pw/ACtC-3cn0EAIEk4UxfduUpDcsSz4OLe9r-skeo_zvx5t07F2lweEfpsd3VH8PsfEfQ0CLF1LHgl9SKUjMaMaQCzg1TmJWvugM47ETNpgw6LSJi_O4PTG2Rzl7pkJfl5YvH9F1TyhvSilCN3CI-k9XPqEApI=w1080-h578-no?authuser=2)
 
-How it should look in Visual Studio
-
-![client-secret!](https://lh3.googleusercontent.com/pw/ACtC-3dCYBOKz3-e53RecUsyUcLAJHdv-_CZYlPQ1o1r2BqIyizPuEhFfMC5Fe3yWzk9Ak2uLc94UNQwuUEmJ1O7BmXK_6e-JYlQ_y8bb0CFi9ej9zZLJC3Y08Th19YaAU3HSYcvLzvJUhuraoGBC-k0KYw=w190-h74-no?authuser=2)
-
 # Set/Reset token
 If you would want to reset your GDAPIv3 genereted token while debugging, you should go to the following directory: `evaseac\app\Evaseac\bin\Debug\` and in there you should delete the `token.json` and `client_secret.json` and save the newer `client_secret.json` there for debugging.
 

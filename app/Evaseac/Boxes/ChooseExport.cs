@@ -16,5 +16,10 @@ namespace Evaseac.Boxes
         {
             InitializeComponent();
         }
+
+        private void lnkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://localhost/evaseac/sys/update/");
+        }
     }
 }
