@@ -68,7 +68,7 @@
           <div class="card">
               <div class="media">
                   <a href="#" class="pull-left">
-                      <img src="https://lh3.googleusercontent.com/pw/ACtC-3eoWteiAuaOCBFupxbg_9lJpL3gK9tGtlHZ-BOUqKIY0EoBAHXg9zdnMpkD98D6myJlDM4YPSqcny4o0b1mnlKay1CCMptyWUryG1ISNpDmNmjkI8yi1n_yjfToS9lBtkhP_k9I1VWfRnSz8JHNAnn5=s947-no?authuser=0" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
+                      <img src="https://lh3.googleusercontent.com/pw/ACtC-3f7H4Qdp8ngzVzouDbC8Wib6EAM7TY8axHu5D4pKmVytZyA6XZHBDtgpmi78c13cuI-mHjA9dPU-mFTUruzmaQqd5tyJDJa9QRmhIM7gI_gqgofsnibGfFYWgVGFtJScDF2ablZlY8vu76rtQeZHP5w=s1000-no?authuser=2" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
                   </a>
                   <div class="media-body">
                     <h2 class="media-heading">Dra. Eugenia López López</h2>
@@ -83,7 +83,7 @@
           <div class="card">
             <div class="media">
                 <a href="#" class="pull-left">
-                    <img src="https://lh3.googleusercontent.com/pw/ACtC-3d3R7RaiJ1ohRid-fmUBu1jXabZlAq7sB5Zdjh_ku4nvMFdTv63eW4Ru_67pZJ8LspDNr1ASnmWJez3P9M8vJAP-WIvDX0lN5m02BTPe8qoC0N8Q6A7mI1MQffsO0X5z5ZR3IAoVZJcInBEUsWVQ1K5=s947-no?authuser=0" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
+                    <img src="https://lh3.googleusercontent.com/pw/ACtC-3e7XjKKSB0HjTSTufBTEwwhVlTvDdA7VytoqbAwscNtAIrtHUWjSKNj01g0oEvhniXFXaJ9RZ94AI49nmPBBhCboTzw8Px_y0LXftHTt-Kt2cYMFbJSjaa9wc_L-pAxbcE20Mgl1-WjgROQQRH-rcZE=s1000-no?authuser=2" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
                 </a>
                 <div class="media-body">
                   <h2 class="media-heading">M. en C. J. Elias Sedeño Díaz</h2>
