@@ -57,22 +57,29 @@ session_start();
         </div>
     </div>
 
-    <div class="jumbotron justify-content-center">
-        <h2>Actualización de la base de datos</h2>
-    </div>
-
-    <div class="container" style="padding-top: 5%;">
-        <form>
-            <div class="form-group">
-                <label for="csvfile">Escoja su archivo CSV que actualizará la base de datos en el servidor</label>
-                <input type="file" class="form-control-file" id="csvfile">
+    <div class="container">
+        <div class="card" style="padding-top: 5%;">
+            <div class="card-header text-center">
+                <h2>Actualización de la base de datos</h2>
             </div>
-            <div class="row" style="padding-top: 15px;">
-                <input class="btn btn-primary" type="button" value="Actualizar" id="btnUpload">
-            </div>    
-        </form>
+            <div class="card-body">
+                <form>
+                <div class="form-group">
+                    <label for="csvfile">Escoja su archivo CSV que actualizará la base de datos en el servidor</label>
+                    <input type="file" class="form-control-file" id="csvfile">
+                </div>
+                <div class="row" style="padding-top: 15px;">
+                    <input class="btn btn-primary" type="button" value="Actualizar" id="btnUpload">
+                </div>    
+            </form>
+            </div>
+            <div class="card-footer text-muted">
+                Última actualicación: Hace 1 día
+            </div>
+        </div>
     </div>
 
+    <div id="editor"></div>
 
     <div class="scripts">
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -93,7 +100,7 @@ session_start();
     var validAuth = false;
 
     $(document).ready(function () {
-        // showing auth modal
+        // // showing auth modal
         // if ("<?php echo isset($_SESSION["user "]); ?>" != "1")
         //     $("#authModalButton").click();
     });
@@ -132,11 +139,30 @@ session_start();
         });
     });
 
-    $("#btnUpload").click(function (){
-        var file = $("#csvFile")[0].files[0];
-        if (file) {
-            console.log(file.name);
+    $("#btnUpload").click(function (){        
+        var file = $("#csvfile").prop('files')[0];
+        if (file == undefined) {
+            alert("Seleccione un archivo");
+            return;
         }
+        else if (file.name.split('.').pop() !== "csv") {
+            alert("Seleccione un archvio csv");
+            return;
+        }
+        console.log(file);
+
+
+        const uri = "updatedb.php";
+        const xhr = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open("POST", uri, true);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                console.log(xhr.responseText);
+            }
+        };
+        fd.append('file_name', file);
+        xhr.send(fd);
     });
 
 </script>
