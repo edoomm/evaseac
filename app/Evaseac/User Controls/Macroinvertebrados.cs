@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Evaseac.User_Controls
@@ -351,14 +352,14 @@ namespace Evaseac.User_Controls
                 }
                 else if (radFamlily.Checked)
                 {
-                    query = "SELECT TOP 100 C.Nombre AS Clase, O.Nombre AS Orden, F.Nombre AS Familia FROM Clase AS C, Orden AS O, Familia AS F "
+                    query = "SELECT C.Nombre AS Clase, O.Nombre AS Orden, F.Nombre AS Familia FROM Clase AS C, Orden AS O, Familia AS F "
                         + "WHERE O.Nombre = '" + cboFilteredTax.SelectedItem + "' AND F.Nombre <> 'no identificado' AND C.ID = O.IdClase AND O.ID = F.IdOrden";
                     DataTable xFltrdFam = DB.Select(query);
                     dgvTaxons.DataSource = xFltrdFam;
                 }
                 else if (radGenre.Checked)
                 {
-                    query = "SELECT TOP 100 C.Nombre AS Clase, O.Nombre AS Orden, F.Nombre AS Familia, G.Nombre AS Genero FROM Clase AS C, Orden AS O, Familia AS F, Genero AS G "
+                    query = "SELECT C.Nombre AS Clase, O.Nombre AS Orden, F.Nombre AS Familia, G.Nombre AS Genero FROM Clase AS C, Orden AS O, Familia AS F, Genero AS G "
                         + "WHERE F.Nombre = '" + cboFilteredTax.SelectedItem + "' AND  G.Nombre <> 'no identificado' AND C.ID = O.IdClase AND O.ID = F.IdOrden AND F.ID = G.IdFamilia";
                     DataTable xFltrdGenre = DB.Select(query);
                     dgvTaxons.DataSource = xFltrdGenre;
