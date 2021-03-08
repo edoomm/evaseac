@@ -87,8 +87,9 @@ namespace Evaseac
         /// </summary>
         private void csvExport()
         {
-            string[] tableNames = {"area", "clase", "familia", "familiassitios", "genero", "generossitios", "imagenes", "miembro", "orden", "parametros",
-                "parametroscrudo", "parametrosp", "parametrospsitios", "proyecto", "prueba", "publicacion", "sitio", "temporada", "usuario" };
+            // this should be ordered from child to parent
+            string[] tableNames = {"parametroscrudo", "parametros", "imagenes", "parametrospsitios", "parametrosp", "prueba", "generossitios", "genero", "familiassitios", "familia",
+                "orden", "clase", "temporada", "sitio", "proyecto", "publicacion", "miembro", "area", "usuario" };
 
             // Joining data into CSV string
             StringBuilder sb = new StringBuilder();
