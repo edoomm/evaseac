@@ -91,6 +91,7 @@ session_start();
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </div>
 </body>
 
@@ -105,6 +106,28 @@ session_start();
         //     $("#authModalButton").click();
     });
 
+    function mensaje(tipo,icono,titulo,texto) {
+        if(tipo == 1) {
+            swal({
+            icon: icono,
+            title: titulo,
+            }).then(function()
+            {
+            window.location.reload();
+            });
+        }
+        else {
+            swal({
+            icon: icono,
+            title: titulo,
+            text: texto
+            }).then(function()
+            {
+            window.location.reload();
+            });
+        }
+    }
+
     // closing event from Modal
     $('#authModal').on('hidden.bs.modal', function (e) {
         // verify authentication
@@ -116,7 +139,7 @@ session_start();
         // invalid
         alert("Necesita autenticarse para poder usar esta página");
         $('#authModal').modal('show');
-    })
+    });
 
     // authentication
     $("#btnAuth").click(function () {
@@ -149,7 +172,7 @@ session_start();
             alert("Seleccione un archvio csv");
             return;
         }
-        console.log(file);
+        // console.log(file);
 
 
         const uri = "updatedb.php";

@@ -5,7 +5,7 @@ function getFileContent()
     $directory = getcwd().DIRECTORY_SEPARATOR;
     $target_file = $directory . basename($_FILES['file_name']['name']);
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $file_number = -2;
+    $file_number = 0;
     $data = array();
     if($file_type == "csv"){
         if(@move_uploaded_file($_FILES['file_name']['tmp_name'], $target_file)){
