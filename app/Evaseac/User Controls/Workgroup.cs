@@ -401,7 +401,7 @@ namespace Evaseac.User_Controls
                 "VALUE (" + txtAmMember.Text + ", " + txtAmMemberName.Text + ", " + txtAmSurname.Text + ", " + txtAmCurriculum.Text + ", " + txtAmPosition.Text + ", " + txtAmGrade.Text + ", " + txtAmPhoto.Text + ", " + txtAmEmail.Text + ", " + idArea + ")";
             DB.Insert(query);
             ReloadAmControls();
-            //MessageBox.Show("Miembro ingresado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Miembro ingresado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void cboAmArea_SelectedIndexChanged(object sender, EventArgs e)
         {
