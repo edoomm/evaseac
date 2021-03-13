@@ -11,6 +11,9 @@ $messages = array();
 $messages["error_queries"] = array();
 $messages["error_mysql"] = array();
 
+$updates = array();
+$first = "";
+
 if(isset($_FILES['file_name'])){
     $data = getFileContent();
     $noRow = -1;
@@ -25,12 +28,11 @@ if(isset($_FILES['file_name'])){
             $counter++;
             if (isTableName($col)) {
                 $tableName = substr($col, 1, strlen($col) - 2);
-                // Deleting
+                // Deleting from top to bottom
                 if (mysqli_query($link, "DELETE FROM " . $tableName) === FALSE) {
                     array_push($messages["error_queries"], "DELETE FROM " . $tableName);
                     array_push($messages["error_mysql"], "MySQL Error(" . mysqli_errno($link) . "):\n" . mysqli_error($link));
                 }
-                // delete($link, $tableName);
 
                 $insert1st = "INSERT INTO " . $tableName;
                 $noRow = 1;
@@ -56,6 +58,7 @@ if(isset($_FILES['file_name'])){
                     $query .= ", ";
                 else if (!isTableName($col)) {
                     $query .= ")";
+                    array_push($updates, $query);
                     // update($link, $query, $messages);
                     // Updating
                     // if (mysqli_query($link, $query) === FALSE) {
@@ -66,6 +69,16 @@ if(isset($_FILES['file_name'])){
             }
         }
     }
+
+    // Updating from bottom to top
+    while (!empty($updates)) {
+        $query = array_pop($updates);
+        if (mysqli_query($link, $query) == FALSE) {
+            array_push($messages["error_queries"], $query);
+            array_push($messages["error_mysql"], "MySQL Error(" . mysqli_errno($link) . "):\n" . mysqli_error($link));
+        }
+    }
+
     mysqli_close($link);
 }
 
