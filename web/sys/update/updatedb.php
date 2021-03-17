@@ -49,9 +49,9 @@ if(isset($_FILES['file_name'])){
                     $params .= ") VALUE";
             }
             else if ($counter == 1)
-                $query = "$insert1st $params (" . getSQLValue($col);
+                $query = "$insert1st $params (" . getDateTimeValue($col);
             else
-                $query .=  getSQLValue($col);
+                $query .=  getDateTimeValue($col);
 
             if ($noRow > 2) {
                 if ($counter != $col_num)
@@ -73,6 +73,7 @@ if(isset($_FILES['file_name'])){
     // Updating from bottom to top
     while (!empty($updates)) {
         $query = array_pop($updates);
+        // echo $query . "\n";
         if (mysqli_query($link, $query) == FALSE) {
             array_push($messages["error_queries"], $query);
             array_push($messages["error_mysql"], "MySQL Error(" . mysqli_errno($link) . "):\n" . mysqli_error($link));
@@ -90,13 +91,28 @@ function isTableName($string) {
     return false;
 }
 
-function getSQLValue($value) {
-    if (empty($value))
-        return "NULL";
-    if (!is_numeric($value))
-        return "'$value'";
+function getDateTimeValue($val)
+{
+    if (strcontains($val, "12:00:00")) {
+        $splitted_datetime = explode(" ", $val);
 
-    return $value;
+        // filling date with ##/##/#### format
+        $date = substr($splitted_datetime[0], 1); // gets date
+        $splitted_date = explode("/", $date); // splits in MM/dd/yyyy
+        // fills with zeros
+        $month = str_pad($splitted_date[0], 2, "0", STR_PAD_LEFT);
+        $day = str_pad($splitted_date[1], 2, "0", STR_PAD_LEFT);
+        $year = $splitted_date[2]; // gets year
+
+        $time = $splitted_datetime[1] . "'"; // gets time
+
+        $formatted_datetime = "'" . $month . "-" . $day . "-" . $year . " " . $time;
+        $datetime = "STR_TO_DATE($formatted_datetime, '%m-%d-%Y %H:%i:%s')";
+
+        return $datetime;
+    }
+
+    return $val;
 }
 
 function delete($link, $tableName) {
@@ -109,6 +125,11 @@ function update($link, $query, $messages) {
     // echo "$query\n";
     // mysqli_query($link, $query);
     // array_push($messages, $query);
+}
+
+function strcontains(string $haystack, string $needle): bool
+{
+    return '' === $needle || false !== strpos($haystack, $needle);
 }
 
 echo json_encode($messages);
