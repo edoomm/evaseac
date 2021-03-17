@@ -105,7 +105,7 @@ namespace Evaseac
                 sb.AppendLine(string.Join(",", columnNames));
                 foreach (DataRow row in dt.Rows)
                 {
-                    IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                    IEnumerable<string> fields = row.ItemArray.Select(field => DB.GetSqlValue(field.ToString()));
                     sb.AppendLine(string.Join(",", fields));
                 }
             }
@@ -125,7 +125,8 @@ namespace Evaseac
                 sw.Close();
                 MessageBox.Show("Archivo .csv creado correctamente en el escritorio de este ordenador." +
                     "\n\nLocación del archivo: " + filePath, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 MessageBox.Show("Archivo CSV no fue podido crear\n\nException:\n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
