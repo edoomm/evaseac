@@ -116,7 +116,6 @@ namespace Evaseac
                 string strPath = Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
                 string fileName = DateTime.Today.ToString("yyyy-MM-dd") + "-evdb.csv";
                 string filePath = strPath + "\\" + fileName;
-                Debug.WriteLine(filePath);
                 FileStream fs = new FileStream(strPath + "\\" + fileName, FileMode.OpenOrCreate, FileAccess.Write);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.BaseStream.Seek(0, SeekOrigin.End);

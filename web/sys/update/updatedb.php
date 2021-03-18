@@ -59,12 +59,6 @@ if(isset($_FILES['file_name'])){
                 else if (!isTableName($col)) {
                     $query .= ")";
                     array_push($updates, $query);
-                    // update($link, $query, $messages);
-                    // Updating
-                    // if (mysqli_query($link, $query) === FALSE) {
-                    //     array_push($messages["error_queries"], $query);
-                    //     array_push($messages["error_mysql"], "MySQL Error(" . mysqli_errno($link) . "):\n" . mysqli_error($link));
-                    // }
                 }
             }
         }
@@ -73,7 +67,6 @@ if(isset($_FILES['file_name'])){
     // Updating from bottom to top
     while (!empty($updates)) {
         $query = array_pop($updates);
-        // echo $query . "\n";
         if (mysqli_query($link, $query) == FALSE) {
             array_push($messages["error_queries"], $query);
             array_push($messages["error_mysql"], "MySQL Error(" . mysqli_errno($link) . "):\n" . mysqli_error($link));
@@ -104,27 +97,15 @@ function getDateTimeValue($val)
         $day = str_pad($splitted_date[1], 2, "0", STR_PAD_LEFT);
         $year = $splitted_date[2]; // gets year
 
-        $time = $splitted_datetime[1] . "'"; // gets time
+        $time = "00:00:00"; // gets time
 
-        $formatted_datetime = "'" . $month . "-" . $day . "-" . $year . " " . $time;
+        $formatted_datetime = "'" . $month . "-" . $day . "-" . $year . " " . $time . "'";
         $datetime = "STR_TO_DATE($formatted_datetime, '%m-%d-%Y %H:%i:%s')";
 
         return $datetime;
     }
 
     return $val;
-}
-
-function delete($link, $tableName) {
-    // echo "DELETE FROM $tableName\n";
-    $query = "DELETE FROM $tableName";
-    // mysqli_query($link, $query);
-}
-
-function update($link, $query, $messages) {
-    // echo "$query\n";
-    // mysqli_query($link, $query);
-    // array_push($messages, $query);
 }
 
 function strcontains(string $haystack, string $needle): bool
