@@ -179,9 +179,7 @@ session_start();
         xhr.open("POST", uri, true);
         xhr.onreadystatechange = function() {
             if(xhr.readyState == 4 && xhr.status == 200){
-                console.log(xhr.responseText);
                 let res = JSON.parse(xhr.responseText);
-                console.log(res["error_mysql"][0]);
                 if (res["error_mysql"].length > 0) {
                     errMsg = "";
                     res["error_mysql"].forEach(err => {
@@ -189,6 +187,9 @@ session_start();
                     });
 
                     mensaje(2, "error", "Error al importar datos a la Base de Datos", errMsg);
+                }
+                else {
+                    mensaje(1, "success", "Datos importados correctamente", "");
                 }
             }
         };
