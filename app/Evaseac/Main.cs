@@ -1,8 +1,12 @@
-﻿using Evaseac.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
+using Debug = System.Diagnostics.Debug;
 
 namespace Evaseac
 {
@@ -42,7 +46,93 @@ namespace Evaseac
         {
             btnParam.Enabled = state;
         }
-        
+
+        #region Export
+
+        /// <summary>
+        /// Verifies if there are suitable conditions to export some selected data to a excel file with the help of <see cref="frmExport"/> where user can select which data to export and the name of the file, among other features.
+        /// </summary>
+        private void excelExport()
+        {
+            bool exist = false;
+            for (int i = 0; i < ucpSites.idTemps.Count; i++)
+                if (DB.Select("SELECT OD FROM Parametros WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0
+                   || DB.Select("SELECT Valor FROM ParametrosPSitios WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0
+                   || DB.Select("SELECT Numero FROM FamiliasSitios WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0
+                   || DB.Select("SELECT Numero FROM GenerosSitios WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0)
+                {
+                    exist = true;
+                    break;
+                }
+
+            if (ucpSites.idTemps.Count == 0)
+                MessageBox.Show("Elija primero los sitios en el apartado de 'Sitios'", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else if (!exist && ucpSites.idTemps.Count == 1)
+                MessageBox.Show("El sitio elegido no tiene parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else if (!exist && ucpSites.idTemps.Count > 1)
+                MessageBox.Show("Los sitios elegidos no tienen parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' u 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (exist)
+                using (frmExport frm = new frmExport())
+                {
+                    frm.idTemps = ucpSites.idTemps;
+                    if (frm.ShowDialog() == DialogResult.OK)
+                        MessageBox.Show("Operacion relizada correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+        }
+
+        /// <summary>
+        /// It will save in the desktop folder 1 csv file with all the information in the 19 tables the Data Base has.
+        /// Each table will be separeted as the following: -[tableName]-
+        /// This will help updating the remote info with local changes which users do.
+        /// </summary>
+        private void csvExport()
+        {
+            // this should be ordered from child to parent
+            string[] tableNames = {"parametroscrudo", "parametros", "imagenes", "parametrospsitios", "parametrosp", "prueba", "generossitios", "genero", "familiassitios", "familia",
+                "orden", "clase", "temporada", "sitio", "proyecto", "publicacion", "miembro", "area", "usuario" };
+
+            // Joining data into CSV string
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string tableName in tableNames)
+            {
+                DataTable dt = DB.Select("SELECT * FROM " + tableName);
+                IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+
+                // table names will have the following format -area-
+                sb.AppendLine("-" + tableName + "-");
+                // table info will have the csv common format
+                sb.AppendLine(string.Join(",", columnNames));
+                foreach (DataRow row in dt.Rows)
+                {
+                    IEnumerable<string> fields = row.ItemArray.Select(field => DB.GetSqlValue(field.ToString()));
+                    sb.AppendLine(string.Join(",", fields));
+                }
+            }
+
+            // Creating file in desktop folder
+            try
+            {
+                string strPath = Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+                string fileName = DateTime.Today.ToString("yyyy-MM-dd") + "-evdb.csv";
+                string filePath = strPath + "\\" + fileName;
+                FileStream fs = new FileStream(strPath + "\\" + fileName, FileMode.OpenOrCreate, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.BaseStream.Seek(0, SeekOrigin.End);
+                sw.Write(sb.ToString());
+                sw.Flush();
+                sw.Close();
+                MessageBox.Show("Archivo .csv creado correctamente en el escritorio de este ordenador." +
+                    "\n\nLocación del archivo: " + filePath, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Archivo CSV no fue podido crear\n\nException:\n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
         //Events
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -166,33 +256,17 @@ namespace Evaseac
             else
                 new frmConfig().Show();
         }
-
+        
         private void btnExport_Click(object sender, EventArgs e)
         {
-            bool exist = false;
-            for (int i = 0; i < ucpSites.idTemps.Count; i++)
-                if (DB.Select("SELECT OD FROM Parametros WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0
-                   || DB.Select("SELECT Valor FROM ParametrosPSitios WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0
-                   || DB.Select("SELECT Numero FROM FamiliasSitios WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0
-                   || DB.Select("SELECT Numero FROM GenerosSitios WHERE IdTemporada = " + ucpSites.idTemps[i]).Rows.Count != 0)
-                {
-                    exist = true;
-                    break;
-                }
-            
-            if (ucpSites.idTemps.Count == 0)
-                MessageBox.Show("Elija primero los sitios en el apartado de 'Sitios'", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else if (!exist && ucpSites.idTemps.Count == 1)
-                MessageBox.Show("El sitio elegido no tiene parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' o 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else if (!exist && ucpSites.idTemps.Count > 1)
-                MessageBox.Show("Los sitios elegidos no tienen parametros, macroinvertebrados ni pruebas ingresadas\nIngrese los datos en los apartados: 'Parametros' o 'Macroinvertebrados' o 'Otras pruebas', para poder exportar", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (exist)
-                using (frmExport frm = new frmExport())
-                {
-                    frm.idTemps = ucpSites.idTemps;
-                    if (frm.ShowDialog() == DialogResult.OK)
-                        MessageBox.Show("Operacion relizada correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+            Boxes.ChooseExport frm = new Boxes.ChooseExport();
+
+            var result = frm.ShowDialog();
+
+            if (result == DialogResult.OK)
+                excelExport();
+            else if (result == DialogResult.Yes)
+                csvExport();
         }
 
 
