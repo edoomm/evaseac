@@ -64,6 +64,7 @@ namespace Evaseac.User_Controls
         {
             FillApMembersCombo();
             FillApPapersGrid();
+            FillApTitlesCombo();
             toolTip.SetToolTip(this.lnkApDrivePaper, "Muestra el link del enlace para el archivo compartido en Google Drive, si muestra '" + LinkText + "', es porque no se ha escogido o subido ningún archivo de Google Drive");
             toolTip.SetToolTip(this.txtEpCoverLink, "Muestra el link del enlace para la imagen de la portada guardada en Google Photos");
         }
@@ -553,9 +554,10 @@ namespace Evaseac.User_Controls
 
             if (MessageBox.Show("Confirmación para eliminar información de '" + cboEmMemberSelect.SelectedItem.ToString() + "'", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
-            if (DB.Select("SELECT Titulo FROM Publicacion WHERE IdMiembro = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString())).Rows.Count > 0)
-                if (MessageBox.Show("El miembro '" + cboEmMemberSelect.SelectedItem.ToString() + "' tiene publicaciones relacionadas a el, al eliminar su información también se eliminarán sus publicaciones de la base de datos", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-                    return;
+            // TODO: Eliminar publicaciones relacionadas al miembro
+            //if (DB.Select("SELECT Titulo FROM Publicacion WHERE IdMiembro = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString())).Rows.Count > 0)
+            //    if (MessageBox.Show("El miembro '" + cboEmMemberSelect.SelectedItem.ToString() + "' tiene publicaciones relacionadas a el, al eliminar su información también se eliminarán sus publicaciones de la base de datos", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            //        return;
 
             // Deleting
             DB.Insert("DELETE FROM Miembro WHERE ID = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString()));
@@ -578,16 +580,25 @@ namespace Evaseac.User_Controls
         private void FillApMembersCombo()
         {
             DB.FillCombobox("Etiqueta", "Miembro", "Etiqueta", cboApMember);
+            if (cboApMember.Items.Count != 0)
+            {
+                cboApMember.Items.AddRange(new object[] { "Varios" });
+            }
         }
         private void FillApPapersGrid()
         {
             if (dtPapers != null)
                 dtPapers.Clear();
 
-            dtPapers = DB.Select("SELECT P.Titulo AS Publicacion, M.Etiqueta AS Autor FROM Publicacion AS P, Miembro AS M WHERE P.IdMiembro = M.ID");
+            //dtPapers = DB.Select("SELECT P.Titulo AS Publicacion, M.Etiqueta AS Autor FROM Publicacion AS P, Miembro AS M WHERE P.IdMiembro = M.ID");
+            dtPapers = DB.Select("SELECT P.Titulo AS Publicacion FROM Publicacion AS P");
             dgvApPapers.DataSource = dtPapers;
 
             dgvApPapers.ClearSelection();
+        }
+        private void FillApTitlesCombo()
+        {
+            //DB.FillCombobox("")
         }
 
         private void ReloadApControls()
@@ -854,6 +865,20 @@ namespace Evaseac.User_Controls
 
             cboEpPapers.SelectedItem = dgvApPapers.Rows[dgvAmMembers.CurrentCell.RowIndex].Cells[0].Value;
             //txtEpTitle.Focus();
+        }
+
+        private void chkApExist_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkApExist.Checked)
+            {
+                txtApTitle.Visible = false;
+                cboApTitle.Visible = true;
+            }
+            else
+            {
+                txtApTitle.Visible = true;
+                cboApTitle.Visible = false;
+            }
         }
         #endregion
 

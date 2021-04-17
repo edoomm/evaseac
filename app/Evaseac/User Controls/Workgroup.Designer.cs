@@ -111,6 +111,8 @@
             this.lblEpPaperSelected = new System.Windows.Forms.Label();
             this.cboEpPapers = new System.Windows.Forms.ComboBox();
             this.lblEpRuler = new System.Windows.Forms.Label();
+            this.chkApExist = new System.Windows.Forms.CheckBox();
+            this.cboApTitle = new System.Windows.Forms.ComboBox();
             this.tabWorkgroup.SuspendLayout();
             this.tbpAddMember.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAmMembers)).BeginInit();
@@ -780,6 +782,8 @@
             // 
             // tbpAddPaper
             // 
+            this.tbpAddPaper.Controls.Add(this.cboApTitle);
+            this.tbpAddPaper.Controls.Add(this.chkApExist);
             this.tbpAddPaper.Controls.Add(this.txtApCoverUrl);
             this.tbpAddPaper.Controls.Add(this.lblApCoverUrl);
             this.tbpAddPaper.Controls.Add(this.pnlApCoverImage);
@@ -969,7 +973,7 @@
             this.lblApMember.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblApMember.AutoSize = true;
             this.lblApMember.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblApMember.Location = new System.Drawing.Point(357, 37);
+            this.lblApMember.Location = new System.Drawing.Point(370, 37);
             this.lblApMember.Name = "lblApMember";
             this.lblApMember.Size = new System.Drawing.Size(61, 16);
             this.lblApMember.TabIndex = 22;
@@ -982,16 +986,16 @@
             this.cboApMember.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboApMember.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F);
             this.cboApMember.FormattingEnabled = true;
-            this.cboApMember.Location = new System.Drawing.Point(424, 34);
+            this.cboApMember.Location = new System.Drawing.Point(437, 34);
             this.cboApMember.Name = "cboApMember";
-            this.cboApMember.Size = new System.Drawing.Size(210, 25);
+            this.cboApMember.Size = new System.Drawing.Size(197, 25);
             this.cboApMember.TabIndex = 2;
             // 
             // lblApPaper
             // 
             this.lblApPaper.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblApPaper.AutoSize = true;
-            this.lblApPaper.Location = new System.Drawing.Point(53, 34);
+            this.lblApPaper.Location = new System.Drawing.Point(118, 34);
             this.lblApPaper.Name = "lblApPaper";
             this.lblApPaper.Size = new System.Drawing.Size(41, 16);
             this.lblApPaper.TabIndex = 20;
@@ -1001,10 +1005,10 @@
             // 
             this.txtApTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtApTitle.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtApTitle.Location = new System.Drawing.Point(100, 31);
+            this.txtApTitle.Location = new System.Drawing.Point(165, 31);
             this.txtApTitle.MaxLength = 100;
             this.txtApTitle.Name = "txtApTitle";
-            this.txtApTitle.Size = new System.Drawing.Size(247, 28);
+            this.txtApTitle.Size = new System.Drawing.Size(190, 28);
             this.txtApTitle.TabIndex = 0;
             this.txtApTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1199,6 +1203,30 @@
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
             // 
+            // chkApExist
+            // 
+            this.chkApExist.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkApExist.AutoSize = true;
+            this.chkApExist.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.chkApExist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkApExist.Location = new System.Drawing.Point(56, 28);
+            this.chkApExist.Name = "chkApExist";
+            this.chkApExist.Size = new System.Drawing.Size(54, 31);
+            this.chkApExist.TabIndex = 56;
+            this.chkApExist.Text = "Existente";
+            this.chkApExist.UseVisualStyleBackColor = true;
+            this.chkApExist.CheckedChanged += new System.EventHandler(this.chkApExist_CheckedChanged);
+            // 
+            // cboApTitle
+            // 
+            this.cboApTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cboApTitle.FormattingEnabled = true;
+            this.cboApTitle.Location = new System.Drawing.Point(165, 33);
+            this.cboApTitle.Name = "cboApTitle";
+            this.cboApTitle.Size = new System.Drawing.Size(190, 24);
+            this.cboApTitle.TabIndex = 57;
+            this.cboApTitle.Visible = false;
+            // 
             // Workgroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1308,5 +1336,7 @@
         private System.Windows.Forms.Panel pnlAmPhoto;
         private System.Windows.Forms.Panel pnlEmPhoto;
         private System.Windows.Forms.Panel pnlEpPhoto;
+        private System.Windows.Forms.CheckBox chkApExist;
+        private System.Windows.Forms.ComboBox cboApTitle;
     }
 }
