@@ -12,6 +12,7 @@ using System.IO;
 using System.Diagnostics;
 using Evaseac.Validation;
 using System.Net;
+using System.Collections.Generic;
 
 namespace Evaseac.User_Controls
 {
@@ -19,12 +20,14 @@ namespace Evaseac.User_Controls
     {
         private ToolTip toolTip;
         private const string PanelURLImageCaption = "\nDe un click para abrir la imagen en el navegador Web";
+        private HashSet<int> idMembers; // it will work to save the IDs for various authors in a paper. It will be used for both Add Paper and edit Paper
 
         public Workgroup()
         {
             InitializeComponent();
 
             this.toolTip = new ToolTip(new System.ComponentModel.Container());
+            this.idMembers = new HashSet<int>();
         }
 
         #region Common methods
@@ -447,7 +450,7 @@ namespace Evaseac.User_Controls
         }
 
         #endregion
-
+        // TODO
         #region Edit members section
 
         private void FillEmMemberCombo()
@@ -581,9 +584,9 @@ namespace Evaseac.User_Controls
         {
             DB.FillCombobox("Etiqueta", "Miembro", "Etiqueta", cboApMember);
             if (cboApMember.Items.Count != 0)
-            {
                 cboApMember.Items.AddRange(new object[] { "Varios" });
-            }
+
+            this.idMembers.Clear();
         }
         private void FillApPapersGrid()
         {
@@ -832,7 +835,7 @@ namespace Evaseac.User_Controls
                 ControlValidation.ShowErrorMessage("El titulo '" + txtApTitle.Text + "' ya existe en la base de datos, favor de escoger uno diferente o simplemente diferenciarlo con un '(1)', '2', etc.");
                 return;
             }
-            if (cboApMember.SelectedIndex == -1)
+            if (cboApMember.SelectedIndex == -1 || this.idMembers.Count == 0)
             {
                 ControlValidation.ShowErrorMessage("No se ha escogido ningún miembro");
                 return;
@@ -850,12 +853,22 @@ namespace Evaseac.User_Controls
             // Insertion to MySQL Database
             FormatTextboxesSQL(new TextBox[] { txtApTitle, txtApCoverUrl });
             lnkApDrivePaper.Text = (lnkApDrivePaper.Text != LinkText) ? "'" + lnkApDrivePaper.Text + "'" : "NULL";
-            string idMember = DB.GetID("Miembro", "Etiqueta", cboApMember.SelectedItem.ToString());
-            string query = "INSERT INTO Publicacion (Titulo, url, Foto, IdMiembro)" +
-                "VALUE (" + txtApTitle.Text + ", " + lnkApDrivePaper.Text + ", " + txtApCoverUrl.Text + ", " + idMember + ")";
 
-            DB.Insert(query);
-            ReloadApControls();
+            string query = "INSERT INTO Publicacion (Titulo, url, Foto)" +
+                "VALUE (" + txtApTitle.Text + ", " + lnkApDrivePaper.Text + ", " + txtApCoverUrl.Text + ")";
+
+
+            if (cboApMember.SelectedIndex != cboApMember.Items.Count-1)
+            {
+                string idMember = DB.GetID("Miembro", "Etiqueta", cboApMember.SelectedItem.ToString());
+            }
+            else
+            {
+
+            }
+
+            //DB.Insert(query);
+            //ReloadApControls();
         }
 
         private void dgvApPapers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -878,6 +891,19 @@ namespace Evaseac.User_Controls
             {
                 txtApTitle.Visible = true;
                 cboApTitle.Visible = false;
+            }
+        }
+
+        private void cboApMember_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboApMember.Items.Count >= 2 && cboApMember.SelectedIndex == cboApMember.Items.Count - 1)
+            {
+                var frmChoose = new frmChooseMembers();
+                frmChoose.ShowDialog();
+                this.idMembers = frmChoose.ids;
+
+                //if (idMembers.Count > 0)
+                //    cboApMember.Text += " (+" + idMembers.Count.ToString() + ")";
             }
         }
         #endregion
@@ -999,6 +1025,5 @@ namespace Evaseac.User_Controls
         }
 
         #endregion
-
     }
 }

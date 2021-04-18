@@ -80,6 +80,8 @@
             this.cboEmMemberSelect = new System.Windows.Forms.ComboBox();
             this.cboEmArea = new System.Windows.Forms.ComboBox();
             this.tbpAddPaper = new System.Windows.Forms.TabPage();
+            this.cboApTitle = new System.Windows.Forms.ComboBox();
+            this.chkApExist = new System.Windows.Forms.CheckBox();
             this.txtApCoverUrl = new System.Windows.Forms.TextBox();
             this.lblApCoverUrl = new System.Windows.Forms.Label();
             this.pnlApCoverImage = new System.Windows.Forms.Panel();
@@ -111,8 +113,6 @@
             this.lblEpPaperSelected = new System.Windows.Forms.Label();
             this.cboEpPapers = new System.Windows.Forms.ComboBox();
             this.lblEpRuler = new System.Windows.Forms.Label();
-            this.chkApExist = new System.Windows.Forms.CheckBox();
-            this.cboApTitle = new System.Windows.Forms.ComboBox();
             this.tabWorkgroup.SuspendLayout();
             this.tbpAddMember.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAmMembers)).BeginInit();
@@ -808,6 +808,30 @@
             this.tbpAddPaper.Text = "Añadir publicación";
             this.tbpAddPaper.UseVisualStyleBackColor = true;
             // 
+            // cboApTitle
+            // 
+            this.cboApTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cboApTitle.FormattingEnabled = true;
+            this.cboApTitle.Location = new System.Drawing.Point(165, 33);
+            this.cboApTitle.Name = "cboApTitle";
+            this.cboApTitle.Size = new System.Drawing.Size(190, 24);
+            this.cboApTitle.TabIndex = 57;
+            this.cboApTitle.Visible = false;
+            // 
+            // chkApExist
+            // 
+            this.chkApExist.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkApExist.AutoSize = true;
+            this.chkApExist.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.chkApExist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkApExist.Location = new System.Drawing.Point(56, 28);
+            this.chkApExist.Name = "chkApExist";
+            this.chkApExist.Size = new System.Drawing.Size(54, 31);
+            this.chkApExist.TabIndex = 56;
+            this.chkApExist.Text = "Existente";
+            this.chkApExist.UseVisualStyleBackColor = true;
+            this.chkApExist.CheckedChanged += new System.EventHandler(this.chkApExist_CheckedChanged);
+            // 
             // txtApCoverUrl
             // 
             this.txtApCoverUrl.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -990,6 +1014,7 @@
             this.cboApMember.Name = "cboApMember";
             this.cboApMember.Size = new System.Drawing.Size(197, 25);
             this.cboApMember.TabIndex = 2;
+            this.cboApMember.SelectedIndexChanged += new System.EventHandler(this.cboApMember_SelectedIndexChanged);
             // 
             // lblApPaper
             // 
@@ -1202,30 +1227,6 @@
             this.lblEpRuler.TabIndex = 40;
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
-            // 
-            // chkApExist
-            // 
-            this.chkApExist.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkApExist.AutoSize = true;
-            this.chkApExist.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.chkApExist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkApExist.Location = new System.Drawing.Point(56, 28);
-            this.chkApExist.Name = "chkApExist";
-            this.chkApExist.Size = new System.Drawing.Size(54, 31);
-            this.chkApExist.TabIndex = 56;
-            this.chkApExist.Text = "Existente";
-            this.chkApExist.UseVisualStyleBackColor = true;
-            this.chkApExist.CheckedChanged += new System.EventHandler(this.chkApExist_CheckedChanged);
-            // 
-            // cboApTitle
-            // 
-            this.cboApTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cboApTitle.FormattingEnabled = true;
-            this.cboApTitle.Location = new System.Drawing.Point(165, 33);
-            this.cboApTitle.Name = "cboApTitle";
-            this.cboApTitle.Size = new System.Drawing.Size(190, 24);
-            this.cboApTitle.TabIndex = 57;
-            this.cboApTitle.Visible = false;
             // 
             // Workgroup
             // 
