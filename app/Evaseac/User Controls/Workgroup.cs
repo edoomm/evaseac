@@ -835,7 +835,7 @@ namespace Evaseac.User_Controls
                 ControlValidation.ShowErrorMessage("El titulo '" + txtApTitle.Text + "' ya existe en la base de datos, favor de escoger uno diferente o simplemente diferenciarlo con un '(1)', '2', etc.");
                 return;
             }
-            if (cboApMember.SelectedIndex == -1 || this.idMembers.Count == 0)
+            if (cboApMember.SelectedIndex == -1 || (cboApMember.SelectedIndex == cboApMember.Items.Count - 1 && this.idMembers.Count == 0))
             {
                 ControlValidation.ShowErrorMessage("No se ha escogido ningún miembro");
                 return;
@@ -856,19 +856,31 @@ namespace Evaseac.User_Controls
 
             string query = "INSERT INTO Publicacion (Titulo, url, Foto)" +
                 "VALUE (" + txtApTitle.Text + ", " + lnkApDrivePaper.Text + ", " + txtApCoverUrl.Text + ")";
+            DB.Insert(query);
+            string idPaper = DB.Select("SELECT ID FROM Publicacion WHERE Titulo=" + txtApTitle.Text + " ORDER BY ID DESC").Rows[0][0].ToString();
 
-
-            if (cboApMember.SelectedIndex != cboApMember.Items.Count-1)
+            string values = "";
+            if (cboApMember.SelectedIndex != cboApMember.Items.Count - 1) // only one author
             {
                 string idMember = DB.GetID("Miembro", "Etiqueta", cboApMember.SelectedItem.ToString());
+                values = "(" + idPaper + ", " + idMember + ")";
             }
-            else
+            else // various authors
             {
-
+                foreach (int idMember in this.idMembers)
+                    values += "(" + idPaper + ", " + idMember + "), ";
+                values = values.Substring(0, values.Length - 2);
+            }
+            if (values == "") // Error
+            {
+                ControlValidation.ShowErrorMessage("No se pudo añadir a miembros como autores de la publicación.\nIntente añadir los miembros en \"Editar miembros\"");
+                return;
             }
 
-            //DB.Insert(query);
-            //ReloadApControls();
+            query = "INSERT INTO PublicacionMiembros VALUES " + values;
+            DB.Insert(query);
+
+            ReloadApControls();
         }
 
         private void dgvApPapers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
