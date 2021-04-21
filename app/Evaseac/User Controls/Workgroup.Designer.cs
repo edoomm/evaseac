@@ -894,6 +894,7 @@
             this.txtApSearch.Name = "txtApSearch";
             this.txtApSearch.Size = new System.Drawing.Size(576, 28);
             this.txtApSearch.TabIndex = 20;
+            this.txtApSearch.Visible = false;
             this.txtApSearch.TextChanged += new System.EventHandler(this.txtApSearch_TextChanged);
             // 
             // lblApSearch
@@ -905,6 +906,7 @@
             this.lblApSearch.Size = new System.Drawing.Size(50, 16);
             this.lblApSearch.TabIndex = 53;
             this.lblApSearch.Text = "Buscar";
+            this.lblApSearch.Visible = false;
             // 
             // dgvApPapers
             // 
@@ -921,14 +923,14 @@
             this.dgvApPapers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colApPaper,
             this.colApAuthor});
-            this.dgvApPapers.Location = new System.Drawing.Point(22, 293);
+            this.dgvApPapers.Location = new System.Drawing.Point(22, 253);
             this.dgvApPapers.Name = "dgvApPapers";
             this.dgvApPapers.ReadOnly = true;
             this.dgvApPapers.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvApPapers.RowHeadersVisible = false;
             this.dgvApPapers.RowHeadersWidth = 51;
             this.dgvApPapers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvApPapers.Size = new System.Drawing.Size(645, 153);
+            this.dgvApPapers.Size = new System.Drawing.Size(645, 193);
             this.dgvApPapers.TabIndex = 22;
             this.dgvApPapers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvApPapers_CellDoubleClick);
             // 
@@ -1235,7 +1237,7 @@
             // 
             // colApPaper
             // 
-            this.colApPaper.HeaderText = "Publicación";
+            this.colApPaper.HeaderText = "Publicacion";
             this.colApPaper.Name = "colApPaper";
             this.colApPaper.ReadOnly = true;
             // 

@@ -609,6 +609,7 @@ namespace Evaseac.User_Controls
                 row[3] = authors;
                 dgvApPapers.Rows.Add(row[1], row[3]);
             }
+            dgvApPapers.ClearSelection();
         }
         private void FillApTitlesCombo()
         {
@@ -629,11 +630,32 @@ namespace Evaseac.User_Controls
         {
             txtApCoverUrl.Text = txtApTitle.Text = cboApMember.Text = null;
         }
+        /// <summary>
+        /// Transforms a DataGridView to a Datatable
+        /// </summary>
+        /// <param name="dgv">The DataGridView to transform</param>
+        /// <returns></returns>
+        private DataTable GetDataTableFromDGV(DataGridView dgv)
+        {
+            var dt = new DataTable();
+            foreach (DataGridViewColumn column in dgv.Columns)
+                if (column.Visible)
+                    dt.Columns.Add();
 
+            object[] cellValues = new object[dgv.Columns.Count];
+            foreach (DataGridViewRow row in dgv.Rows)
+                for (int i = 0; i < row.Cells.Count; i++)
+                    cellValues[i] = row.Cells[i].Value;
+                dt.Rows.Add(cellValues);
+
+            return dt;
+        }
         private void txtApSearch_TextChanged(object sender, EventArgs e)
         {
-            //DataView dvPapers = dtPapers.DefaultView;
-            //dvPapers.RowFilter = string.Format("Publicacion like '%" + txtApSearch.Text + "%' or Autor like '%" + txtApSearch.Text + "%'");
+            // TODO
+            //DataView dvPapers = GetDataTableFromDGV(dgvApPapers).DefaultView;
+            //PrintDataView(dvPapers);
+            //dvPapers.RowFilter = string.Format("Publicacion like '%" + txtApSearch.Text + "%'");
             //dgvApPapers.DataSource = dvPapers.ToTable();
             //dgvApPapers.ClearSelection();
         }
