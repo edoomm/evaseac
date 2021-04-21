@@ -113,6 +113,8 @@
             this.lblEpPaperSelected = new System.Windows.Forms.Label();
             this.cboEpPapers = new System.Windows.Forms.ComboBox();
             this.lblEpRuler = new System.Windows.Forms.Label();
+            this.colApPaper = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colApAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabWorkgroup.SuspendLayout();
             this.tbpAddMember.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAmMembers)).BeginInit();
@@ -916,6 +918,9 @@
             this.dgvApPapers.BackgroundColor = System.Drawing.Color.White;
             this.dgvApPapers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvApPapers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvApPapers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colApPaper,
+            this.colApAuthor});
             this.dgvApPapers.Location = new System.Drawing.Point(22, 293);
             this.dgvApPapers.Name = "dgvApPapers";
             this.dgvApPapers.ReadOnly = true;
@@ -1228,6 +1233,18 @@
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
             // 
+            // colApPaper
+            // 
+            this.colApPaper.HeaderText = "Publicación";
+            this.colApPaper.Name = "colApPaper";
+            this.colApPaper.ReadOnly = true;
+            // 
+            // colApAuthor
+            // 
+            this.colApAuthor.HeaderText = "Autor(es)";
+            this.colApAuthor.Name = "colApAuthor";
+            this.colApAuthor.ReadOnly = true;
+            // 
             // Workgroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1339,5 +1356,7 @@
         private System.Windows.Forms.Panel pnlEpPhoto;
         private System.Windows.Forms.CheckBox chkApExist;
         private System.Windows.Forms.ComboBox cboApTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colApPaper;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colApAuthor;
     }
 }

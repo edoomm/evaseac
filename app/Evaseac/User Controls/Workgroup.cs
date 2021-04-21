@@ -572,7 +572,6 @@ namespace Evaseac.User_Controls
 
         #region Add papers section
 
-        private DataTable dtPapers; // Variable for Add Paper DataGridView
         private string uploadedFilePath; // Variable for Add Paper File Path
 
         private const string PanelImageCaption = "\nDe un click para abrir la locacion de la imagen\nDe doble click para ampliar la imagen";
@@ -590,14 +589,26 @@ namespace Evaseac.User_Controls
         }
         private void FillApPapersGrid()
         {
-            if (dtPapers != null)
-                dtPapers.Clear();
+            dgvApPapers.Rows.Clear();
+            // retrieving data from DB
+            // selects title and number of authors. THIS WILL BE THE SOURCE
+            DataTable dtPapers = DB.Select("SELECT PM.IdPublicacion AS ID, P.Titulo, COUNT(*) AS NoMiembros FROM PublicacionMiembros AS PM INNER JOIN Publicacion AS P ON PM.IdPublicacion = P.ID GROUP BY PM.IdPublicacion ORDER BY PM.IdPublicacion DESC");
+            // selects name of authors
+            dtPapers.Columns.Add("Autor(es)", typeof(String));
+            foreach (DataRow row in dtPapers.Rows)
+            {
+                string idPaper = row[0].ToString();
+                // Retrieves names of authors
+                DataTable dtMembers = DB.Select("SELECT M.Nombre AS Nombre, M.Apellido AS Apellido FROM PublicacionMiembros AS PM INNER JOIN Miembro AS M ON PM.IdMiembro = M.ID WHERE PM.IdPublicacion = " + idPaper + " ORDER BY PM.IdPublicacion DESC");
+                // Concatanating authors names
+                string authors = "";
+                foreach (DataRow dataRow in dtMembers.Rows)
+                    authors += dataRow[0].ToString() + " " + dataRow[1].ToString()[0] + ", ";
+                authors = authors.Substring(0, authors.Length - 2);
 
-            //dtPapers = DB.Select("SELECT P.Titulo AS Publicacion, M.Etiqueta AS Autor FROM Publicacion AS P, Miembro AS M WHERE P.IdMiembro = M.ID");
-            dtPapers = DB.Select("SELECT P.Titulo AS Publicacion FROM Publicacion AS P");
-            dgvApPapers.DataSource = dtPapers;
-
-            dgvApPapers.ClearSelection();
+                row[3] = authors;
+                dgvApPapers.Rows.Add(row[1], row[3]);
+            }
         }
         private void FillApTitlesCombo()
         {
@@ -621,10 +632,10 @@ namespace Evaseac.User_Controls
 
         private void txtApSearch_TextChanged(object sender, EventArgs e)
         {
-            DataView dvPapers = dtPapers.DefaultView;
-            dvPapers.RowFilter = string.Format("Publicacion like '%" + txtApSearch.Text + "%' or Autor like '%" + txtApSearch.Text + "%'");
-            dgvApPapers.DataSource = dvPapers.ToTable();
-            dgvApPapers.ClearSelection();
+            //DataView dvPapers = dtPapers.DefaultView;
+            //dvPapers.RowFilter = string.Format("Publicacion like '%" + txtApSearch.Text + "%' or Autor like '%" + txtApSearch.Text + "%'");
+            //dgvApPapers.DataSource = dvPapers.ToTable();
+            //dgvApPapers.ClearSelection();
         }
 
         private void btnApChooseDriveFile_Click(object sender, EventArgs e)
@@ -938,7 +949,7 @@ namespace Evaseac.User_Controls
             ClearEpText();
             FillEpComboboxes();
         }
-
+        // TODO: Change due to DB changes
         private void cboEpPapers_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboEpPapers.SelectedIndex == -1)
