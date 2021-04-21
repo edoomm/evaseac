@@ -925,20 +925,6 @@ namespace Evaseac.User_Controls
             //txtEpTitle.Focus();
         }
 
-        private void chkApExist_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkApExist.Checked)
-            {
-                txtApTitle.Visible = false;
-                cboApTitle.Visible = true;
-            }
-            else
-            {
-                txtApTitle.Visible = true;
-                cboApTitle.Visible = false;
-            }
-        }
-
         private void cboApMember_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboApMember.Items.Count >= 2 && cboApMember.SelectedIndex == cboApMember.Items.Count - 1)
