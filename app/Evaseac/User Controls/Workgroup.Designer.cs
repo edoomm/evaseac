@@ -87,6 +87,8 @@
             this.txtApSearch = new System.Windows.Forms.TextBox();
             this.lblApSearch = new System.Windows.Forms.Label();
             this.dgvApPapers = new System.Windows.Forms.DataGridView();
+            this.colApPaper = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colApAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblApRule = new System.Windows.Forms.Label();
             this.btnApSave = new System.Windows.Forms.Button();
             this.lnkApDrivePaper = new System.Windows.Forms.LinkLabel();
@@ -111,8 +113,6 @@
             this.lblEpPaperSelected = new System.Windows.Forms.Label();
             this.cboEpPapers = new System.Windows.Forms.ComboBox();
             this.lblEpRuler = new System.Windows.Forms.Label();
-            this.colApPaper = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colApAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabWorkgroup.SuspendLayout();
             this.tbpAddMember.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAmMembers)).BeginInit();
@@ -906,6 +906,18 @@
             this.dgvApPapers.TabIndex = 22;
             this.dgvApPapers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvApPapers_CellDoubleClick);
             // 
+            // colApPaper
+            // 
+            this.colApPaper.HeaderText = "Publicacion";
+            this.colApPaper.Name = "colApPaper";
+            this.colApPaper.ReadOnly = true;
+            // 
+            // colApAuthor
+            // 
+            this.colApAuthor.HeaderText = "Autor(es)";
+            this.colApAuthor.Name = "colApAuthor";
+            this.colApAuthor.ReadOnly = true;
+            // 
             // lblApRule
             // 
             this.lblApRule.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -1170,6 +1182,7 @@
             this.cboEpMember.Name = "cboEpMember";
             this.cboEpMember.Size = new System.Drawing.Size(200, 25);
             this.cboEpMember.TabIndex = 4;
+            this.cboEpMember.SelectedIndexChanged += new System.EventHandler(this.cboEpMember_SelectedIndexChanged);
             // 
             // lblEpPaperSelected
             // 
@@ -1206,18 +1219,6 @@
             this.lblEpRuler.TabIndex = 40;
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
-            // 
-            // colApPaper
-            // 
-            this.colApPaper.HeaderText = "Publicacion";
-            this.colApPaper.Name = "colApPaper";
-            this.colApPaper.ReadOnly = true;
-            // 
-            // colApAuthor
-            // 
-            this.colApAuthor.HeaderText = "Autor(es)";
-            this.colApAuthor.Name = "colApAuthor";
-            this.colApAuthor.ReadOnly = true;
             // 
             // Workgroup
             // 
