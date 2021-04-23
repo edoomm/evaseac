@@ -113,10 +113,10 @@
             this.lblEpPaperSelected = new System.Windows.Forms.Label();
             this.cboEpPapers = new System.Windows.Forms.ComboBox();
             this.lblEpRuler = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.lblRG = new System.Windows.Forms.Label();
+            this.txtAmRG = new System.Windows.Forms.TextBox();
+            this.lblAmRG = new System.Windows.Forms.Label();
+            this.txtEmRG = new System.Windows.Forms.TextBox();
+            this.lblEmRG = new System.Windows.Forms.Label();
             this.tabWorkgroup.SuspendLayout();
             this.tbpAddMember.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAmMembers)).BeginInit();
@@ -146,8 +146,8 @@
             // 
             // tbpAddMember
             // 
-            this.tbpAddMember.Controls.Add(this.label1);
-            this.tbpAddMember.Controls.Add(this.textBox1);
+            this.tbpAddMember.Controls.Add(this.lblAmRG);
+            this.tbpAddMember.Controls.Add(this.txtAmRG);
             this.tbpAddMember.Controls.Add(this.pnlAmPhoto);
             this.tbpAddMember.Controls.Add(this.btnAmSave);
             this.tbpAddMember.Controls.Add(this.lblAmMember);
@@ -475,14 +475,14 @@
             // 
             // tbpEditMember
             // 
-            this.tbpEditMember.Controls.Add(this.lblRG);
+            this.tbpEditMember.Controls.Add(this.lblEmRG);
             this.tbpEditMember.Controls.Add(this.pnlEmPhoto);
             this.tbpEditMember.Controls.Add(this.lblEmRuler);
             this.tbpEditMember.Controls.Add(this.btnEmDelete);
             this.tbpEditMember.Controls.Add(this.btnEmSave);
             this.tbpEditMember.Controls.Add(this.txtEmCurriculum);
             this.tbpEditMember.Controls.Add(this.lblEmCurriculum);
-            this.tbpEditMember.Controls.Add(this.textBox2);
+            this.tbpEditMember.Controls.Add(this.txtEmRG);
             this.tbpEditMember.Controls.Add(this.txtEmPhoto);
             this.tbpEditMember.Controls.Add(this.lblEmPhoto);
             this.tbpEditMember.Controls.Add(this.txtEmEmail);
@@ -1228,51 +1228,51 @@
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
             // 
-            // textBox1
+            // txtAmRG
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.textBox1.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(373, 247);
-            this.textBox1.MaxLength = 2000;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(150, 28);
-            this.textBox1.TabIndex = 20;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtAmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtAmRG.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAmRG.Location = new System.Drawing.Point(373, 247);
+            this.txtAmRG.MaxLength = 2000;
+            this.txtAmRG.Name = "txtAmRG";
+            this.txtAmRG.Size = new System.Drawing.Size(150, 28);
+            this.txtAmRG.TabIndex = 20;
+            this.txtAmRG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label1
+            // lblAmRG
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(268, 253);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 16);
-            this.label1.TabIndex = 55;
-            this.label1.Text = "Research Gate";
+            this.lblAmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblAmRG.AutoSize = true;
+            this.lblAmRG.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAmRG.Location = new System.Drawing.Point(268, 253);
+            this.lblAmRG.Name = "lblAmRG";
+            this.lblAmRG.Size = new System.Drawing.Size(99, 16);
+            this.lblAmRG.TabIndex = 55;
+            this.lblAmRG.Text = "Research Gate";
             // 
-            // textBox2
+            // txtEmRG
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.textBox2.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(441, 305);
-            this.textBox2.MaxLength = 2000;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(199, 28);
-            this.textBox2.TabIndex = 19;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.URLTextBox_KeyUp);
-            this.textBox2.Leave += new System.EventHandler(this.URLTextBox_Leave);
+            this.txtEmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtEmRG.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEmRG.Location = new System.Drawing.Point(441, 305);
+            this.txtEmRG.MaxLength = 2000;
+            this.txtEmRG.Name = "txtEmRG";
+            this.txtEmRG.Size = new System.Drawing.Size(199, 28);
+            this.txtEmRG.TabIndex = 19;
+            this.txtEmRG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtEmRG.KeyUp += new System.Windows.Forms.KeyEventHandler(this.URLTextBox_KeyUp);
+            this.txtEmRG.Leave += new System.EventHandler(this.URLTextBox_Leave);
             // 
-            // lblRG
+            // lblEmRG
             // 
-            this.lblRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lblRG.AutoSize = true;
-            this.lblRG.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRG.Location = new System.Drawing.Point(336, 308);
-            this.lblRG.Name = "lblRG";
-            this.lblRG.Size = new System.Drawing.Size(99, 16);
-            this.lblRG.TabIndex = 55;
-            this.lblRG.Text = "Research Gate";
+            this.lblEmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblEmRG.AutoSize = true;
+            this.lblEmRG.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmRG.Location = new System.Drawing.Point(336, 308);
+            this.lblEmRG.Name = "lblEmRG";
+            this.lblEmRG.Size = new System.Drawing.Size(99, 16);
+            this.lblEmRG.TabIndex = 55;
+            this.lblEmRG.Text = "Research Gate";
             // 
             // Workgroup
             // 
@@ -1385,9 +1385,9 @@
         private System.Windows.Forms.Panel pnlEpPhoto;
         private System.Windows.Forms.DataGridViewTextBoxColumn colApPaper;
         private System.Windows.Forms.DataGridViewTextBoxColumn colApAuthor;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label lblRG;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label lblAmRG;
+        private System.Windows.Forms.TextBox txtAmRG;
+        private System.Windows.Forms.Label lblEmRG;
+        private System.Windows.Forms.TextBox txtEmRG;
     }
 }

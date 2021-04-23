@@ -364,7 +364,7 @@ namespace Evaseac.User_Controls
         private void ClearAmText()
         {
             txtAmMember.Text = txtAmMemberName.Text = txtAmSurname.Text = txtAmCurriculum.Text = txtAmPosition.Text = txtAmGrade.Text
-                = txtAmEmail.Text = txtAmPhoto.Text = txtAmSearch.Text = null;
+                = txtAmEmail.Text = txtAmPhoto.Text = txtAmSearch.Text = txtAmRG.Text = null;
         }
         private void ReloadAmControls()
         {
@@ -397,7 +397,7 @@ namespace Evaseac.User_Controls
                 return;
             }
 
-            FormatTextboxesSQL(new TextBox[] { txtAmMember, txtAmMemberName, txtAmSurname, txtAmCurriculum, txtAmPosition, txtAmGrade, txtAmEmail, txtAmPhoto });
+            FormatTextboxesSQL(new TextBox[] { txtAmMember, txtAmMemberName, txtAmSurname, txtAmCurriculum, txtAmPosition, txtAmGrade, txtAmEmail, txtAmPhoto, txtAmRG });
 
             string idArea;
             if (cboAmArea.SelectedIndex > -1)
@@ -405,8 +405,8 @@ namespace Evaseac.User_Controls
             else
                 idArea = "NULL";
 
-            string query = "INSERT INTO Miembro (Etiqueta, Nombre, Apellido, FichaCurricular, Puesto, Grado, Foto, Correo, IdArea)" +
-                "VALUE (" + txtAmMember.Text + ", " + txtAmMemberName.Text + ", " + txtAmSurname.Text + ", " + txtAmCurriculum.Text + ", " + txtAmPosition.Text + ", " + txtAmGrade.Text + ", " + txtAmPhoto.Text + ", " + txtAmEmail.Text + ", " + idArea + ")";
+            string query = "INSERT INTO Miembro (Etiqueta, Nombre, Apellido, FichaCurricular, Puesto, Grado, Foto, Correo, IdArea, ResearchGate)" +
+                "VALUE (" + txtAmMember.Text + ", " + txtAmMemberName.Text + ", " + txtAmSurname.Text + ", " + txtAmCurriculum.Text + ", " + txtAmPosition.Text + ", " + txtAmGrade.Text + ", " + txtAmPhoto.Text + ", " + txtAmEmail.Text + ", " + idArea + ", " + txtAmRG.Text + ")";
             DB.Insert(query);
             ReloadAmControls();
             MessageBox.Show("Miembro ingresado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -471,7 +471,7 @@ namespace Evaseac.User_Controls
         private void ClearEmText()
         {
             cboEmArea.Text = txtEmMember.Text = txtEmMemberName.Text = txtEmSurname.Text = txtEmPosition.Text = txtEmGrade.Text
-                = txtEmEmail.Text = txtEmPhoto.Text = txtEmCurriculum.Text = null;
+                = txtEmEmail.Text = txtEmPhoto.Text = txtEmCurriculum.Text = txtEmRG.Text = null;
             pnlEmPhoto.BackgroundImage = null;
         }
         private void ReloadEmControls()
@@ -501,6 +501,7 @@ namespace Evaseac.User_Controls
                 txtEmEmail.Text = dtMember.Rows[0]["Correo"].ToString();
                 txtEmGrade.Text = dtMember.Rows[0]["Grado"].ToString();
                 txtEmPhoto.Text = dtMember.Rows[0]["Foto"].ToString();
+                txtEmRG.Text = dtMember.Rows[0]["ResearchGate"].ToString();
 
                 if (!String.IsNullOrEmpty(txtEmPhoto.Text))
                     LoadImageFromURL(pnlEmPhoto, txtEmPhoto.Text);
@@ -535,7 +536,7 @@ namespace Evaseac.User_Controls
                 return;
             }
 
-            FormatTextboxesSQL(new TextBox[] { txtEmMember, txtEmMemberName, txtEmSurname, txtEmPosition, txtEmGrade, txtEmEmail, txtEmPhoto, txtEmCurriculum });
+            FormatTextboxesSQL(new TextBox[] { txtEmMember, txtEmMemberName, txtEmSurname, txtEmPosition, txtEmGrade, txtEmEmail, txtEmPhoto, txtEmCurriculum, txtEmRG });
 
             string idArea;
             if (cboEmArea.SelectedIndex > -1)
@@ -544,7 +545,7 @@ namespace Evaseac.User_Controls
                 idArea = "NULL";
 
             // Updating
-            string query = "UPDATE Miembro SET Etiqueta = " + txtEmMember.Text + ", Nombre = " + txtEmMemberName.Text + ", Apellido = " + txtEmSurname.Text + ", FichaCurricular = " + txtEmCurriculum.Text + ", Puesto = " + txtEmPosition.Text + ", Grado = " + txtEmGrade.Text + ", Foto = " + txtEmPhoto.Text + ", Correo = " + txtEmEmail.Text + ", IdArea = " + idArea +
+            string query = "UPDATE Miembro SET Etiqueta = " + txtEmMember.Text + ", Nombre = " + txtEmMemberName.Text + ", Apellido = " + txtEmSurname.Text + ", FichaCurricular = " + txtEmCurriculum.Text + ", Puesto = " + txtEmPosition.Text + ", Grado = " + txtEmGrade.Text + ", Foto = " + txtEmPhoto.Text + ", Correo = " + txtEmEmail.Text + ", IdArea = " + idArea + ", ResearchGate = " + txtEmRG.Text +
                 " WHERE ID = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString());
 
             DB.Insert(query);
