@@ -454,7 +454,7 @@ namespace Evaseac.User_Controls
         }
 
         #endregion
-        // TODO
+        
         #region Edit members section
 
         private void FillEmMemberCombo()
@@ -561,13 +561,17 @@ namespace Evaseac.User_Controls
 
             if (MessageBox.Show("Confirmación para eliminar información de '" + cboEmMemberSelect.SelectedItem.ToString() + "'", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
+
+            string idMember = DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString());
+
             // TODO: Eliminar publicaciones relacionadas al miembro
-            //if (DB.Select("SELECT Titulo FROM Publicacion WHERE IdMiembro = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString())).Rows.Count > 0)
-            //    if (MessageBox.Show("El miembro '" + cboEmMemberSelect.SelectedItem.ToString() + "' tiene publicaciones relacionadas a el, al eliminar su información también se eliminarán sus publicaciones de la base de datos", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-            //        return;
+            if (DB.Select("SELECT * FROM PublicacionMiembros WHERE IdMiembro = " + idMember).Rows.Count > 0)
+                if (MessageBox.Show("El miembro '" + cboEmMemberSelect.SelectedItem.ToString() + "' tiene publicaciones relacionadas a el, al eliminar su información también se eliminarán sus publicaciones de la base de datos", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                    return;
 
             // Deleting
-            DB.Insert("DELETE FROM Miembro WHERE ID = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString()));
+            DB.Insert("DELETE FROM PublicacionMiembros WHERE IdMiembro = " + idMember);
+            DB.Insert("DELETE FROM Miembro WHERE ID = " + idMember);
             ReloadEmControls();
             MessageBox.Show("Miembro eliminado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -964,7 +968,7 @@ namespace Evaseac.User_Controls
             ClearEpText();
             FillEpComboboxes();
         }
-        // TODO: Change due to DB changes
+        
         private void cboEpPapers_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboEpPapers.SelectedIndex == -1)
