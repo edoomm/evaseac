@@ -116,6 +116,7 @@ namespace Evaseac.Boxes
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Escoger miembros";
+            this.Load += new System.EventHandler(this.frmChooseMembers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMembers)).EndInit();
             this.ResumeLayout(false);
 

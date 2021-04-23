@@ -17,8 +17,9 @@ namespace Evaseac.Boxes
             InitializeComponent();
             ids = new HashSet<int>();
             fill(this.dgvMembers);
-            this.dgvMembers.ClearSelection();
         }
+
+        public HashSet<int> ids { get; set; }
 
         /// <summary>
         /// Fills a DataGriedView with data from the DB Table 'Miembro'
@@ -34,7 +35,18 @@ namespace Evaseac.Boxes
                 dataGridView.Rows.Add(false, row[0], row[1]);
         }
 
-        public HashSet<int> ids { get; set; }
+        /// <summary>
+        /// Sets IDs and checks them in DataGridView
+        /// </summary>
+        /// <param name="ids">The IDs of the authors</param>
+        public void setIds(HashSet<int> ids)
+        {
+            this.ids = ids;
+
+            foreach (DataGridViewRow row in this.dgvMembers.Rows)
+                if (this.ids.Contains(int.Parse(row.Cells[1].Value.ToString())))
+                    row.Cells[0].Value = true;
+        }
 
         private void dgvMembers_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -51,6 +63,11 @@ namespace Evaseac.Boxes
                 // removes from ids
                 ids.Remove(int.Parse(dgvMembers.CurrentRow.Cells[1].Value.ToString()));
             }
+        }
+
+        private void frmChooseMembers_Load(object sender, EventArgs e)
+        {
+            this.dgvMembers.ClearSelection();
         }
     }
 }
