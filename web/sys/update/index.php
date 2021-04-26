@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once '../../database/evaseacdb.php';
 ?>
 
 <!DOCTYPE html>
@@ -68,13 +69,20 @@ session_start();
                     <label for="csvfile">Escoja su archivo CSV que actualizará la base de datos en el servidor</label>
                     <input type="file" class="form-control-file" id="csvfile">
                 </div>
-                <div class="row" style="padding-top: 15px;">
+                <div class="row" style="padding-top: 15px; padding-left: 12px;">
                     <input class="btn btn-primary" type="button" value="Actualizar" id="btnUpload">
                 </div>    
             </form>
             </div>
             <div class="card-footer text-muted">
-                Última actualicación: Hace 1 día
+            <?php
+            $link = open_database();
+            $query = "SELECT last_import FROM sys_config WHERE id = '" . SYS_ID . "'";
+            $last_import = mysqli_fetch_assoc(mysqli_query($link, $query))['last_import'];
+            if ($last_import == null)
+                $last_import = "No se ha importado ningún archivo al sistema";
+            ?>
+                Última actualicación: <?php echo $last_import; ?>
             </div>
         </div>
     </div>
@@ -93,6 +101,10 @@ session_start();
         </script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </div>
+
+    <?php
+    mysqli_close($link);
+    ?>
 </body>
 
 </html>
@@ -101,9 +113,9 @@ session_start();
     var validAuth = false;
 
     $(document).ready(function () {
-        // // showing auth modal
-        // if ("<?php echo isset($_SESSION["user "]); ?>" != "1")
-        //     $("#authModalButton").click();
+        // showing auth modal
+        if ("<?php echo isset($_SESSION["user"]); ?>" != "1")
+            $("#authModalButton").click();
     });
 
     function mensaje(tipo,icono,titulo,texto) {
