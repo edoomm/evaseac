@@ -375,5 +375,3 @@ client_secret.json
 # Database files
 # Database class for database connection both locally and remotely
 DB.cs
-# The database script that connects the web module and app module
-dbscript.sql
