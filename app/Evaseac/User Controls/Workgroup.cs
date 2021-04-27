@@ -12,6 +12,7 @@ using System.IO;
 using System.Diagnostics;
 using Evaseac.Validation;
 using System.Net;
+using System.Collections.Generic;
 
 namespace Evaseac.User_Controls
 {
@@ -19,12 +20,14 @@ namespace Evaseac.User_Controls
     {
         private ToolTip toolTip;
         private const string PanelURLImageCaption = "\nDe un click para abrir la imagen en el navegador Web";
+        private HashSet<int> idMembers; // it will work to save the IDs for various authors in a paper. It will be used for both Add Paper and edit Paper
 
         public Workgroup()
         {
             InitializeComponent();
 
             this.toolTip = new ToolTip(new System.ComponentModel.Container());
+            this.idMembers = new HashSet<int>();
         }
 
         #region Common methods
@@ -67,6 +70,8 @@ namespace Evaseac.User_Controls
             FillApTitlesCombo();
             toolTip.SetToolTip(this.lnkApDrivePaper, "Muestra el link del enlace para el archivo compartido en Google Drive, si muestra '" + LinkText + "', es porque no se ha escogido o subido ningún archivo de Google Drive");
             toolTip.SetToolTip(this.txtEpCoverLink, "Muestra el link del enlace para la imagen de la portada guardada en Google Photos");
+            
+            idMembers.Clear();
         }
 
         private void LoadEditPapers()
@@ -74,6 +79,8 @@ namespace Evaseac.User_Controls
             FillEpComboboxes();
             toolTip.SetToolTip(this.txtEpPdfLink, "Muestra el link del enlace para el archivo compartido en Google Drive, si muestra '" + LinkText + "', es porque no se ha escogido o subido ningún archivo de Google Drive");
             toolTip.SetToolTip(this.txtEpCoverLink, "Muestra el link del enlace para la imagen de la portada guardada en Google Photos");
+
+            idMembers.Clear();
         }
 
         public void tabWorkgroup_SelectedIndexChanged(object sender, EventArgs e)
@@ -357,7 +364,7 @@ namespace Evaseac.User_Controls
         private void ClearAmText()
         {
             txtAmMember.Text = txtAmMemberName.Text = txtAmSurname.Text = txtAmCurriculum.Text = txtAmPosition.Text = txtAmGrade.Text
-                = txtAmEmail.Text = txtAmPhoto.Text = txtAmSearch.Text = null;
+                = txtAmEmail.Text = txtAmPhoto.Text = txtAmSearch.Text = txtAmRG.Text = null;
         }
         private void ReloadAmControls()
         {
@@ -390,7 +397,7 @@ namespace Evaseac.User_Controls
                 return;
             }
 
-            FormatTextboxesSQL(new TextBox[] { txtAmMember, txtAmMemberName, txtAmSurname, txtAmCurriculum, txtAmPosition, txtAmGrade, txtAmEmail, txtAmPhoto });
+            FormatTextboxesSQL(new TextBox[] { txtAmMember, txtAmMemberName, txtAmSurname, txtAmCurriculum, txtAmPosition, txtAmGrade, txtAmEmail, txtAmPhoto, txtAmRG });
 
             string idArea;
             if (cboAmArea.SelectedIndex > -1)
@@ -398,8 +405,8 @@ namespace Evaseac.User_Controls
             else
                 idArea = "NULL";
 
-            string query = "INSERT INTO Miembro (Etiqueta, Nombre, Apellido, FichaCurricular, Puesto, Grado, Foto, Correo, IdArea)" +
-                "VALUE (" + txtAmMember.Text + ", " + txtAmMemberName.Text + ", " + txtAmSurname.Text + ", " + txtAmCurriculum.Text + ", " + txtAmPosition.Text + ", " + txtAmGrade.Text + ", " + txtAmPhoto.Text + ", " + txtAmEmail.Text + ", " + idArea + ")";
+            string query = "INSERT INTO Miembro (Etiqueta, Nombre, Apellido, FichaCurricular, Puesto, Grado, Foto, Correo, IdArea, ResearchGate)" +
+                "VALUE (" + txtAmMember.Text + ", " + txtAmMemberName.Text + ", " + txtAmSurname.Text + ", " + txtAmCurriculum.Text + ", " + txtAmPosition.Text + ", " + txtAmGrade.Text + ", " + txtAmPhoto.Text + ", " + txtAmEmail.Text + ", " + idArea + ", " + txtAmRG.Text + ")";
             DB.Insert(query);
             ReloadAmControls();
             MessageBox.Show("Miembro ingresado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -447,7 +454,7 @@ namespace Evaseac.User_Controls
         }
 
         #endregion
-
+        
         #region Edit members section
 
         private void FillEmMemberCombo()
@@ -464,7 +471,7 @@ namespace Evaseac.User_Controls
         private void ClearEmText()
         {
             cboEmArea.Text = txtEmMember.Text = txtEmMemberName.Text = txtEmSurname.Text = txtEmPosition.Text = txtEmGrade.Text
-                = txtEmEmail.Text = txtEmPhoto.Text = txtEmCurriculum.Text = null;
+                = txtEmEmail.Text = txtEmPhoto.Text = txtEmCurriculum.Text = txtEmRG.Text = null;
             pnlEmPhoto.BackgroundImage = null;
         }
         private void ReloadEmControls()
@@ -494,6 +501,7 @@ namespace Evaseac.User_Controls
                 txtEmEmail.Text = dtMember.Rows[0]["Correo"].ToString();
                 txtEmGrade.Text = dtMember.Rows[0]["Grado"].ToString();
                 txtEmPhoto.Text = dtMember.Rows[0]["Foto"].ToString();
+                txtEmRG.Text = dtMember.Rows[0]["ResearchGate"].ToString();
 
                 if (!String.IsNullOrEmpty(txtEmPhoto.Text))
                     LoadImageFromURL(pnlEmPhoto, txtEmPhoto.Text);
@@ -528,7 +536,7 @@ namespace Evaseac.User_Controls
                 return;
             }
 
-            FormatTextboxesSQL(new TextBox[] { txtEmMember, txtEmMemberName, txtEmSurname, txtEmPosition, txtEmGrade, txtEmEmail, txtEmPhoto, txtEmCurriculum });
+            FormatTextboxesSQL(new TextBox[] { txtEmMember, txtEmMemberName, txtEmSurname, txtEmPosition, txtEmGrade, txtEmEmail, txtEmPhoto, txtEmCurriculum, txtEmRG });
 
             string idArea;
             if (cboEmArea.SelectedIndex > -1)
@@ -537,7 +545,7 @@ namespace Evaseac.User_Controls
                 idArea = "NULL";
 
             // Updating
-            string query = "UPDATE Miembro SET Etiqueta = " + txtEmMember.Text + ", Nombre = " + txtEmMemberName.Text + ", Apellido = " + txtEmSurname.Text + ", FichaCurricular = " + txtEmCurriculum.Text + ", Puesto = " + txtEmPosition.Text + ", Grado = " + txtEmGrade.Text + ", Foto = " + txtEmPhoto.Text + ", Correo = " + txtEmEmail.Text + ", IdArea = " + idArea +
+            string query = "UPDATE Miembro SET Etiqueta = " + txtEmMember.Text + ", Nombre = " + txtEmMemberName.Text + ", Apellido = " + txtEmSurname.Text + ", FichaCurricular = " + txtEmCurriculum.Text + ", Puesto = " + txtEmPosition.Text + ", Grado = " + txtEmGrade.Text + ", Foto = " + txtEmPhoto.Text + ", Correo = " + txtEmEmail.Text + ", IdArea = " + idArea + ", ResearchGate = " + txtEmRG.Text +
                 " WHERE ID = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString());
 
             DB.Insert(query);
@@ -554,13 +562,17 @@ namespace Evaseac.User_Controls
 
             if (MessageBox.Show("Confirmación para eliminar información de '" + cboEmMemberSelect.SelectedItem.ToString() + "'", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
+
+            string idMember = DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString());
+
             // TODO: Eliminar publicaciones relacionadas al miembro
-            //if (DB.Select("SELECT Titulo FROM Publicacion WHERE IdMiembro = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString())).Rows.Count > 0)
-            //    if (MessageBox.Show("El miembro '" + cboEmMemberSelect.SelectedItem.ToString() + "' tiene publicaciones relacionadas a el, al eliminar su información también se eliminarán sus publicaciones de la base de datos", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-            //        return;
+            if (DB.Select("SELECT * FROM PublicacionMiembros WHERE IdMiembro = " + idMember).Rows.Count > 0)
+                if (MessageBox.Show("El miembro '" + cboEmMemberSelect.SelectedItem.ToString() + "' tiene publicaciones relacionadas a el, al eliminar su información también se eliminarán sus publicaciones de la base de datos", "Atención", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                    return;
 
             // Deleting
-            DB.Insert("DELETE FROM Miembro WHERE ID = " + DB.GetID("Miembro", "Etiqueta", cboEmMemberSelect.SelectedItem.ToString()));
+            DB.Insert("DELETE FROM PublicacionMiembros WHERE IdMiembro = " + idMember);
+            DB.Insert("DELETE FROM Miembro WHERE ID = " + idMember);
             ReloadEmControls();
             MessageBox.Show("Miembro eliminado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -569,7 +581,6 @@ namespace Evaseac.User_Controls
 
         #region Add papers section
 
-        private DataTable dtPapers; // Variable for Add Paper DataGridView
         private string uploadedFilePath; // Variable for Add Paper File Path
 
         private const string PanelImageCaption = "\nDe un click para abrir la locacion de la imagen\nDe doble click para ampliar la imagen";
@@ -581,19 +592,32 @@ namespace Evaseac.User_Controls
         {
             DB.FillCombobox("Etiqueta", "Miembro", "Etiqueta", cboApMember);
             if (cboApMember.Items.Count != 0)
-            {
                 cboApMember.Items.AddRange(new object[] { "Varios" });
-            }
+
+            this.idMembers.Clear();
         }
         private void FillApPapersGrid()
         {
-            if (dtPapers != null)
-                dtPapers.Clear();
+            dgvApPapers.Rows.Clear();
+            // retrieving data from DB
+            // selects title and number of authors. THIS WILL BE THE SOURCE
+            DataTable dtPapers = DB.Select("SELECT PM.IdPublicacion AS ID, P.Titulo, COUNT(*) AS NoMiembros FROM PublicacionMiembros AS PM INNER JOIN Publicacion AS P ON PM.IdPublicacion = P.ID GROUP BY PM.IdPublicacion ORDER BY PM.IdPublicacion DESC");
+            // selects name of authors
+            dtPapers.Columns.Add("Autor(es)", typeof(String));
+            foreach (DataRow row in dtPapers.Rows)
+            {
+                string idPaper = row[0].ToString();
+                // Retrieves names of authors
+                DataTable dtMembers = DB.Select("SELECT M.Nombre AS Nombre, M.Apellido AS Apellido FROM PublicacionMiembros AS PM INNER JOIN Miembro AS M ON PM.IdMiembro = M.ID WHERE PM.IdPublicacion = " + idPaper + " ORDER BY PM.IdPublicacion DESC");
+                // Concatanating authors names
+                string authors = "";
+                foreach (DataRow dataRow in dtMembers.Rows)
+                    authors += dataRow[0].ToString() + " " + dataRow[1].ToString()[0] + ", ";
+                authors = authors.Substring(0, authors.Length - 2);
 
-            //dtPapers = DB.Select("SELECT P.Titulo AS Publicacion, M.Etiqueta AS Autor FROM Publicacion AS P, Miembro AS M WHERE P.IdMiembro = M.ID");
-            dtPapers = DB.Select("SELECT P.Titulo AS Publicacion FROM Publicacion AS P");
-            dgvApPapers.DataSource = dtPapers;
-
+                row[3] = authors;
+                dgvApPapers.Rows.Add(row[1], row[3]);
+            }
             dgvApPapers.ClearSelection();
         }
         private void FillApTitlesCombo()
@@ -615,13 +639,34 @@ namespace Evaseac.User_Controls
         {
             txtApCoverUrl.Text = txtApTitle.Text = cboApMember.Text = null;
         }
+        /// <summary>
+        /// Transforms a DataGridView to a Datatable
+        /// </summary>
+        /// <param name="dgv">The DataGridView to transform</param>
+        /// <returns></returns>
+        private DataTable GetDataTableFromDGV(DataGridView dgv)
+        {
+            var dt = new DataTable();
+            foreach (DataGridViewColumn column in dgv.Columns)
+                if (column.Visible)
+                    dt.Columns.Add();
 
+            object[] cellValues = new object[dgv.Columns.Count];
+            foreach (DataGridViewRow row in dgv.Rows)
+                for (int i = 0; i < row.Cells.Count; i++)
+                    cellValues[i] = row.Cells[i].Value;
+                dt.Rows.Add(cellValues);
+
+            return dt;
+        }
         private void txtApSearch_TextChanged(object sender, EventArgs e)
         {
-            DataView dvPapers = dtPapers.DefaultView;
-            dvPapers.RowFilter = string.Format("Publicacion like '%" + txtApSearch.Text + "%' or Autor like '%" + txtApSearch.Text + "%'");
-            dgvApPapers.DataSource = dvPapers.ToTable();
-            dgvApPapers.ClearSelection();
+            // TODO
+            //DataView dvPapers = GetDataTableFromDGV(dgvApPapers).DefaultView;
+            //PrintDataView(dvPapers);
+            //dvPapers.RowFilter = string.Format("Publicacion like '%" + txtApSearch.Text + "%'");
+            //dgvApPapers.DataSource = dvPapers.ToTable();
+            //dgvApPapers.ClearSelection();
         }
 
         private void btnApChooseDriveFile_Click(object sender, EventArgs e)
@@ -832,7 +877,7 @@ namespace Evaseac.User_Controls
                 ControlValidation.ShowErrorMessage("El titulo '" + txtApTitle.Text + "' ya existe en la base de datos, favor de escoger uno diferente o simplemente diferenciarlo con un '(1)', '2', etc.");
                 return;
             }
-            if (cboApMember.SelectedIndex == -1)
+            if (cboApMember.SelectedIndex == -1 || (cboApMember.SelectedIndex == cboApMember.Items.Count - 1 && this.idMembers.Count == 0))
             {
                 ControlValidation.ShowErrorMessage("No se ha escogido ningún miembro");
                 return;
@@ -850,11 +895,33 @@ namespace Evaseac.User_Controls
             // Insertion to MySQL Database
             FormatTextboxesSQL(new TextBox[] { txtApTitle, txtApCoverUrl });
             lnkApDrivePaper.Text = (lnkApDrivePaper.Text != LinkText) ? "'" + lnkApDrivePaper.Text + "'" : "NULL";
-            string idMember = DB.GetID("Miembro", "Etiqueta", cboApMember.SelectedItem.ToString());
-            string query = "INSERT INTO Publicacion (Titulo, url, Foto, IdMiembro)" +
-                "VALUE (" + txtApTitle.Text + ", " + lnkApDrivePaper.Text + ", " + txtApCoverUrl.Text + ", " + idMember + ")";
 
+            string query = "INSERT INTO Publicacion (Titulo, url, Foto)" +
+                "VALUE (" + txtApTitle.Text + ", " + lnkApDrivePaper.Text + ", " + txtApCoverUrl.Text + ")";
             DB.Insert(query);
+            string idPaper = DB.Select("SELECT ID FROM Publicacion WHERE Titulo=" + txtApTitle.Text + " ORDER BY ID DESC").Rows[0][0].ToString();
+
+            string values = "";
+            if (cboApMember.SelectedIndex != cboApMember.Items.Count - 1) // only one author
+            {
+                string idMember = DB.GetID("Miembro", "Etiqueta", cboApMember.SelectedItem.ToString());
+                values = "(" + idPaper + ", " + idMember + ")";
+            }
+            else // various authors
+            {
+                foreach (int idMember in this.idMembers)
+                    values += "(" + idPaper + ", " + idMember + "), ";
+                values = values.Substring(0, values.Length - 2);
+            }
+            if (values == "") // Error
+            {
+                ControlValidation.ShowErrorMessage("No se pudo añadir a miembros como autores de la publicación.\nIntente añadir los miembros en \"Editar miembros\"");
+                return;
+            }
+
+            query = "INSERT INTO PublicacionMiembros VALUES " + values;
+            DB.Insert(query);
+
             ReloadApControls();
         }
 
@@ -867,28 +934,30 @@ namespace Evaseac.User_Controls
             //txtEpTitle.Focus();
         }
 
-        private void chkApExist_CheckedChanged(object sender, EventArgs e)
+        private void cboApMember_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (chkApExist.Checked)
+            if (cboApMember.Items.Count >= 2 && cboApMember.SelectedIndex == cboApMember.Items.Count - 1)
             {
-                txtApTitle.Visible = false;
-                cboApTitle.Visible = true;
-            }
-            else
-            {
-                txtApTitle.Visible = true;
-                cboApTitle.Visible = false;
+                var frmChoose = new frmChooseMembers();
+                frmChoose.ShowDialog();
+                this.idMembers = frmChoose.ids;
+
+                //if (idMembers.Count > 0)
+                //    cboApMember.Text += " (+" + idMembers.Count.ToString() + ")";
             }
         }
         #endregion
 
         #region Edit papers section
+        private bool cboEpPaperWasChanged = false; // flag to show ChooseMember
 
         private void FillEpComboboxes()
         {
             cboEpPapers.Text = null;
             DB.FillCombobox("Titulo", "Publicacion", "Titulo", this.cboEpPapers);
             DB.FillCombobox("Etiqueta", "Miembro", "Etiqueta", this.cboEpMember);
+            if (cboEpMember.Items.Count != 0)
+                cboEpMember.Items.AddRange(new object[] { "Varios" });
         }
         private void ClearEpText()
         {
@@ -900,7 +969,7 @@ namespace Evaseac.User_Controls
             ClearEpText();
             FillEpComboboxes();
         }
-
+        
         private void cboEpPapers_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboEpPapers.SelectedIndex == -1)
@@ -919,15 +988,30 @@ namespace Evaseac.User_Controls
                 return;
             }
 
+            cboEpPaperWasChanged = true;
+
             txtEpTitle.Text = dtPaper.Rows[0]["Titulo"].ToString();
             txtEpPdfLink.Text = dtPaper.Rows[0]["url"].ToString();
             txtEpCoverLink.Text = dtPaper.Rows[0]["Foto"].ToString();
-            cboEpMember.SelectedItem = DB.Select("SELECT Etiqueta FROM Miembro WHERE ID = " + dtPaper.Rows[0]["IdMiembro"].ToString()).Rows[0][0];
+            // Retrieving authors
+            idMembers.Clear();
+            DataTable dtMembers = DB.Select("SELECT IdMiembro FROM PublicacionMiembros WHERE IdPublicacion = " + dtPaper.Rows[0]["ID"].ToString());
+            if (dtMembers.Rows.Count > 1)
+            {
+                cboEpMember.SelectedIndex = cboEpMember.Items.Count - 1;                
+                foreach (DataRow row in dtMembers.Rows)
+                    idMembers.Add(int.Parse(row[0].ToString()));
+            }
+            else if (dtMembers.Rows.Count == 1)
+                cboEpMember.SelectedItem = DB.Select("SELECT Etiqueta FROM Miembro WHERE ID = " + dtMembers.Rows[0][0].ToString()).Rows[0][0];
+            else // TODO: Handle error
+                ReloadEpControls();
 
             if (!String.IsNullOrEmpty(txtEpCoverLink.Text))
                 LoadImageFromURL(pnlEpPhoto, txtEpCoverLink.Text);
 
             cboEpPapers.Focus();
+            cboEpPaperWasChanged = false;
         }
         private void btnEpSave_Click(object sender, EventArgs e)
         {
@@ -947,7 +1031,7 @@ namespace Evaseac.User_Controls
                 ControlValidation.ShowErrorMessage("El titulo '" + txtEpTitle.Text + "' ya existe lo tiene otra publicación, favor de diferenciar (o eliminar la otra publicación) este titulo para poder modificarlo");
                 return;
             }
-            if (cboEpMember.SelectedIndex == -1)
+            if (cboEpMember.SelectedIndex == -1 || (cboEpMember.SelectedIndex == cboEpMember.Items.Count - 1 && idMembers.Count == 0))
             {
                 ControlValidation.ShowErrorMessage("No se ha escogido ningún miembro");
                 return;
@@ -965,14 +1049,28 @@ namespace Evaseac.User_Controls
             Cursor.Current = Cursors.WaitCursor;
 
             // Proceed to MySQL database insertion
+            if (cboEpMember.SelectedIndex != cboEpMember.Items.Count - 1)
+            {
+                idMembers.Clear();
+                idMembers.Add(int.Parse(DB.GetID("Miembro", "Etiqueta", cboEpMember.SelectedItem.ToString())));
+            }
+            // confirmation
+            if (MessageBox.Show("¿Desea actualizar la información de '" + cboEpPapers.SelectedItem.ToString() + "'?\n(Número de autores: " + idMembers.Count + ")", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
             string idPaper = DB.GetID("Publicacion", "Titulo", cboEpPapers.SelectedItem.ToString());
             FormatTextboxesSQL(new TextBox[] { txtEpTitle, txtEpPdfLink, txtEpCoverLink });
-            string idMember = DB.GetID("Miembro", "Etiqueta", cboEpMember.SelectedItem.ToString());
 
-            string query = "UPDATE Publicacion SET Titulo = " + txtEpTitle.Text + ", IdMiembro = " + idMember + ", url = " + txtEpPdfLink.Text + ", Foto = " + txtEpCoverLink.Text +
+            string query = "UPDATE Publicacion SET Titulo = " + txtEpTitle.Text + ", url = " + txtEpPdfLink.Text + ", Foto = " + txtEpCoverLink.Text +
                 " WHERE ID = " + idPaper;
 
             DB.Insert(query);
+
+            // authors
+            DB.Insert("DELETE FROM PublicacionMiembros WHERE IdPublicacion = " + idPaper);
+            foreach (int idMember in idMembers)
+                DB.Insert("INSERT INTO PublicacionMiembros (IdPublicacion, IdMiembro) VALUE (" + idPaper + ", " + idMember + ")");
+
             ReloadEpControls();
 
             Cursor.Current = Cursors.Default;
@@ -991,14 +1089,27 @@ namespace Evaseac.User_Controls
 
             Cursor.Current = Cursors.WaitCursor;
 
-            string query = "DELETE FROM Publicacion WHERE Titulo = '" + cboEpPapers.SelectedItem.ToString() + "'";
+            string idPaper = DB.GetID("Publicacion", "Titulo", cboEpPapers.SelectedItem.ToString());
+            DB.Insert("DELETE FROM PublicacionMiembros WHERE IdPublicacion = " + idPaper);
+            string query = "DELETE FROM Publicacion WHERE ID = " + idPaper;
             DB.Insert(query);
+
             ReloadEpControls();
 
             Cursor.Current = Cursors.Default;
         }
+        private void cboEpMember_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboEpMember.SelectedIndex == cboEpMember.Items.Count - 1 && !cboEpPaperWasChanged)
+            {
+                var frmChoose = new frmChooseMembers();
+                frmChoose.setIds(idMembers);
+                frmChoose.ShowDialog();
+
+                this.idMembers = frmChoose.ids;
+            }
+        }
 
         #endregion
-
     }
 }

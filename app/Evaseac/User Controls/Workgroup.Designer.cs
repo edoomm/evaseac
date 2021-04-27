@@ -87,6 +87,8 @@
             this.txtApSearch = new System.Windows.Forms.TextBox();
             this.lblApSearch = new System.Windows.Forms.Label();
             this.dgvApPapers = new System.Windows.Forms.DataGridView();
+            this.colApPaper = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colApAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblApRule = new System.Windows.Forms.Label();
             this.btnApSave = new System.Windows.Forms.Button();
             this.lnkApDrivePaper = new System.Windows.Forms.LinkLabel();
@@ -111,8 +113,10 @@
             this.lblEpPaperSelected = new System.Windows.Forms.Label();
             this.cboEpPapers = new System.Windows.Forms.ComboBox();
             this.lblEpRuler = new System.Windows.Forms.Label();
-            this.chkApExist = new System.Windows.Forms.CheckBox();
-            this.cboApTitle = new System.Windows.Forms.ComboBox();
+            this.txtAmRG = new System.Windows.Forms.TextBox();
+            this.lblAmRG = new System.Windows.Forms.Label();
+            this.txtEmRG = new System.Windows.Forms.TextBox();
+            this.lblEmRG = new System.Windows.Forms.Label();
             this.tabWorkgroup.SuspendLayout();
             this.tbpAddMember.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAmMembers)).BeginInit();
@@ -142,6 +146,8 @@
             // 
             // tbpAddMember
             // 
+            this.tbpAddMember.Controls.Add(this.lblAmRG);
+            this.tbpAddMember.Controls.Add(this.txtAmRG);
             this.tbpAddMember.Controls.Add(this.pnlAmPhoto);
             this.tbpAddMember.Controls.Add(this.btnAmSave);
             this.tbpAddMember.Controls.Add(this.lblAmMember);
@@ -277,7 +283,7 @@
             this.txtAmPhoto.Location = new System.Drawing.Point(87, 247);
             this.txtAmPhoto.MaxLength = 2000;
             this.txtAmPhoto.Name = "txtAmPhoto";
-            this.txtAmPhoto.Size = new System.Drawing.Size(445, 28);
+            this.txtAmPhoto.Size = new System.Drawing.Size(150, 28);
             this.txtAmPhoto.TabIndex = 18;
             this.txtAmPhoto.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtAmPhoto.KeyUp += new System.Windows.Forms.KeyEventHandler(this.URLTextBox_KeyUp);
@@ -469,12 +475,14 @@
             // 
             // tbpEditMember
             // 
+            this.tbpEditMember.Controls.Add(this.lblEmRG);
             this.tbpEditMember.Controls.Add(this.pnlEmPhoto);
             this.tbpEditMember.Controls.Add(this.lblEmRuler);
             this.tbpEditMember.Controls.Add(this.btnEmDelete);
             this.tbpEditMember.Controls.Add(this.btnEmSave);
             this.tbpEditMember.Controls.Add(this.txtEmCurriculum);
             this.tbpEditMember.Controls.Add(this.lblEmCurriculum);
+            this.tbpEditMember.Controls.Add(this.txtEmRG);
             this.tbpEditMember.Controls.Add(this.txtEmPhoto);
             this.tbpEditMember.Controls.Add(this.lblEmPhoto);
             this.tbpEditMember.Controls.Add(this.txtEmEmail);
@@ -586,7 +594,7 @@
             this.txtEmPhoto.Location = new System.Drawing.Point(124, 305);
             this.txtEmPhoto.MaxLength = 2000;
             this.txtEmPhoto.Name = "txtEmPhoto";
-            this.txtEmPhoto.Size = new System.Drawing.Size(517, 28);
+            this.txtEmPhoto.Size = new System.Drawing.Size(199, 28);
             this.txtEmPhoto.TabIndex = 18;
             this.txtEmPhoto.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtEmPhoto.KeyUp += new System.Windows.Forms.KeyEventHandler(this.URLTextBox_KeyUp);
@@ -782,8 +790,6 @@
             // 
             // tbpAddPaper
             // 
-            this.tbpAddPaper.Controls.Add(this.cboApTitle);
-            this.tbpAddPaper.Controls.Add(this.chkApExist);
             this.tbpAddPaper.Controls.Add(this.txtApCoverUrl);
             this.tbpAddPaper.Controls.Add(this.lblApCoverUrl);
             this.tbpAddPaper.Controls.Add(this.pnlApCoverImage);
@@ -868,6 +874,7 @@
             this.txtApSearch.Name = "txtApSearch";
             this.txtApSearch.Size = new System.Drawing.Size(576, 28);
             this.txtApSearch.TabIndex = 20;
+            this.txtApSearch.Visible = false;
             this.txtApSearch.TextChanged += new System.EventHandler(this.txtApSearch_TextChanged);
             // 
             // lblApSearch
@@ -879,6 +886,7 @@
             this.lblApSearch.Size = new System.Drawing.Size(50, 16);
             this.lblApSearch.TabIndex = 53;
             this.lblApSearch.Text = "Buscar";
+            this.lblApSearch.Visible = false;
             // 
             // dgvApPapers
             // 
@@ -892,16 +900,31 @@
             this.dgvApPapers.BackgroundColor = System.Drawing.Color.White;
             this.dgvApPapers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvApPapers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvApPapers.Location = new System.Drawing.Point(22, 293);
+            this.dgvApPapers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colApPaper,
+            this.colApAuthor});
+            this.dgvApPapers.Location = new System.Drawing.Point(22, 253);
             this.dgvApPapers.Name = "dgvApPapers";
             this.dgvApPapers.ReadOnly = true;
             this.dgvApPapers.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvApPapers.RowHeadersVisible = false;
             this.dgvApPapers.RowHeadersWidth = 51;
             this.dgvApPapers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvApPapers.Size = new System.Drawing.Size(645, 153);
+            this.dgvApPapers.Size = new System.Drawing.Size(645, 193);
             this.dgvApPapers.TabIndex = 22;
             this.dgvApPapers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvApPapers_CellDoubleClick);
+            // 
+            // colApPaper
+            // 
+            this.colApPaper.HeaderText = "Publicacion";
+            this.colApPaper.Name = "colApPaper";
+            this.colApPaper.ReadOnly = true;
+            // 
+            // colApAuthor
+            // 
+            this.colApAuthor.HeaderText = "Autor(es)";
+            this.colApAuthor.Name = "colApAuthor";
+            this.colApAuthor.ReadOnly = true;
             // 
             // lblApRule
             // 
@@ -973,7 +996,7 @@
             this.lblApMember.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblApMember.AutoSize = true;
             this.lblApMember.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblApMember.Location = new System.Drawing.Point(370, 37);
+            this.lblApMember.Location = new System.Drawing.Point(348, 34);
             this.lblApMember.Name = "lblApMember";
             this.lblApMember.Size = new System.Drawing.Size(61, 16);
             this.lblApMember.TabIndex = 22;
@@ -986,16 +1009,17 @@
             this.cboApMember.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboApMember.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F);
             this.cboApMember.FormattingEnabled = true;
-            this.cboApMember.Location = new System.Drawing.Point(437, 34);
+            this.cboApMember.Location = new System.Drawing.Point(415, 34);
             this.cboApMember.Name = "cboApMember";
-            this.cboApMember.Size = new System.Drawing.Size(197, 25);
+            this.cboApMember.Size = new System.Drawing.Size(219, 25);
             this.cboApMember.TabIndex = 2;
+            this.cboApMember.SelectedIndexChanged += new System.EventHandler(this.cboApMember_SelectedIndexChanged);
             // 
             // lblApPaper
             // 
             this.lblApPaper.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblApPaper.AutoSize = true;
-            this.lblApPaper.Location = new System.Drawing.Point(118, 34);
+            this.lblApPaper.Location = new System.Drawing.Point(53, 34);
             this.lblApPaper.Name = "lblApPaper";
             this.lblApPaper.Size = new System.Drawing.Size(41, 16);
             this.lblApPaper.TabIndex = 20;
@@ -1005,10 +1029,10 @@
             // 
             this.txtApTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtApTitle.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtApTitle.Location = new System.Drawing.Point(165, 31);
+            this.txtApTitle.Location = new System.Drawing.Point(100, 31);
             this.txtApTitle.MaxLength = 100;
             this.txtApTitle.Name = "txtApTitle";
-            this.txtApTitle.Size = new System.Drawing.Size(190, 28);
+            this.txtApTitle.Size = new System.Drawing.Size(224, 28);
             this.txtApTitle.TabIndex = 0;
             this.txtApTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1166,6 +1190,7 @@
             this.cboEpMember.Name = "cboEpMember";
             this.cboEpMember.Size = new System.Drawing.Size(200, 25);
             this.cboEpMember.TabIndex = 4;
+            this.cboEpMember.SelectedIndexChanged += new System.EventHandler(this.cboEpMember_SelectedIndexChanged);
             // 
             // lblEpPaperSelected
             // 
@@ -1203,29 +1228,51 @@
             this.lblEpRuler.Text = "_________________________________________________________________________________" +
     "______________________________";
             // 
-            // chkApExist
+            // txtAmRG
             // 
-            this.chkApExist.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkApExist.AutoSize = true;
-            this.chkApExist.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.chkApExist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkApExist.Location = new System.Drawing.Point(56, 28);
-            this.chkApExist.Name = "chkApExist";
-            this.chkApExist.Size = new System.Drawing.Size(54, 31);
-            this.chkApExist.TabIndex = 56;
-            this.chkApExist.Text = "Existente";
-            this.chkApExist.UseVisualStyleBackColor = true;
-            this.chkApExist.CheckedChanged += new System.EventHandler(this.chkApExist_CheckedChanged);
+            this.txtAmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtAmRG.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAmRG.Location = new System.Drawing.Point(373, 247);
+            this.txtAmRG.MaxLength = 2000;
+            this.txtAmRG.Name = "txtAmRG";
+            this.txtAmRG.Size = new System.Drawing.Size(150, 28);
+            this.txtAmRG.TabIndex = 20;
+            this.txtAmRG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // cboApTitle
+            // lblAmRG
             // 
-            this.cboApTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cboApTitle.FormattingEnabled = true;
-            this.cboApTitle.Location = new System.Drawing.Point(165, 33);
-            this.cboApTitle.Name = "cboApTitle";
-            this.cboApTitle.Size = new System.Drawing.Size(190, 24);
-            this.cboApTitle.TabIndex = 57;
-            this.cboApTitle.Visible = false;
+            this.lblAmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblAmRG.AutoSize = true;
+            this.lblAmRG.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAmRG.Location = new System.Drawing.Point(268, 253);
+            this.lblAmRG.Name = "lblAmRG";
+            this.lblAmRG.Size = new System.Drawing.Size(99, 16);
+            this.lblAmRG.TabIndex = 55;
+            this.lblAmRG.Text = "Research Gate";
+            // 
+            // txtEmRG
+            // 
+            this.txtEmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtEmRG.Font = new System.Drawing.Font("Yu Gothic Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEmRG.Location = new System.Drawing.Point(441, 305);
+            this.txtEmRG.MaxLength = 2000;
+            this.txtEmRG.Name = "txtEmRG";
+            this.txtEmRG.Size = new System.Drawing.Size(199, 28);
+            this.txtEmRG.TabIndex = 19;
+            this.txtEmRG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtEmRG.KeyUp += new System.Windows.Forms.KeyEventHandler(this.URLTextBox_KeyUp);
+            this.txtEmRG.Leave += new System.EventHandler(this.URLTextBox_Leave);
+            // 
+            // lblEmRG
+            // 
+            this.lblEmRG.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblEmRG.AutoSize = true;
+            this.lblEmRG.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmRG.Location = new System.Drawing.Point(336, 308);
+            this.lblEmRG.Name = "lblEmRG";
+            this.lblEmRG.Size = new System.Drawing.Size(99, 16);
+            this.lblEmRG.TabIndex = 55;
+            this.lblEmRG.Text = "Research Gate";
             // 
             // Workgroup
             // 
@@ -1336,7 +1383,11 @@
         private System.Windows.Forms.Panel pnlAmPhoto;
         private System.Windows.Forms.Panel pnlEmPhoto;
         private System.Windows.Forms.Panel pnlEpPhoto;
-        private System.Windows.Forms.CheckBox chkApExist;
-        private System.Windows.Forms.ComboBox cboApTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colApPaper;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colApAuthor;
+        private System.Windows.Forms.Label lblAmRG;
+        private System.Windows.Forms.TextBox txtAmRG;
+        private System.Windows.Forms.Label lblEmRG;
+        private System.Windows.Forms.TextBox txtEmRG;
     }
 }

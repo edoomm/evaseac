@@ -109,6 +109,12 @@
     <Compile Include="Boxes\ChooseExport.Designer.cs">
       <DependentUpon>ChooseExport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boxes\ChooseMembers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Boxes\ChooseMembers.Designer.cs">
+      <DependentUpon>ChooseMembers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boxes\Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Boxes\ChooseExport.resx">
       <DependentUpon>ChooseExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Boxes\ChooseMembers.resx">
+      <DependentUpon>ChooseMembers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Boxes\EditArea.resx">
       <DependentUpon>EditArea.cs</DependentUpon>

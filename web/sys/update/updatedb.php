@@ -73,6 +73,17 @@ if(isset($_FILES['file_name'])){
         }
     }
 
+    // updating sys_config
+    if (count($messages["error_mysql"]) == 0) {
+        date_default_timezone_set('America/Mexico_City');
+        
+        $query = "UPDATE sys_config SET last_import = '" . date('Y-m-d H:i:s') . "' WHERE id = '" . SYS_ID . "'";
+        if (mysqli_query($link, $query) == FALSE) {
+            array_push($messages["error_queries"], $query);
+            array_push($messages["error_mysql"], "MySQL Error(" . mysqli_errno($link) . "):\n" . mysqli_error($link));
+        }
+    }
+
     mysqli_close($link);
 }
 
