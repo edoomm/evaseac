@@ -6,3 +6,10 @@ desktop.ini
 
 # The database script that connects the web module and app module
 dbscript.sql
+
+# Ignore the database directory, where the connection is made and there are some queries
+database/*.sql
+evaseacdb.php
+
+# Tests directory
+tsts/
