@@ -3,3 +3,6 @@ desktop.ini
 
 # Photoshop files
 *.psd
+
+# The database script that connects the web module and app module
+dbscript.sql

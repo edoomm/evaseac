@@ -1,5 +1,6 @@
 # Ignore the database directory, where the connection is made and there are some queries
-database/
+database/*.sql
+evaseacdb.php
 
 # Tests directory
 tsts/
