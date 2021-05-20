@@ -43,6 +43,8 @@
     <link href="../../css/custom.css" rel="stylesheet">
     <!-- Icon -->
     <link rel="icon" href="../../imgs/Evaseac.ico">
+    <!-- mdbootsrap icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
     <style media="screen">
       div.personalInfo {
@@ -129,6 +131,16 @@
             <p class="font-weight-light"><?php echo $position; ?></p>
             <?php
             }
+            if (is_null($rg)) {
+              $noinfo++;
+            }
+            else{
+            ?>
+            <div style="padding-bottom: 10px; padding-left: 1.5%;">
+              <a href="<?php echo $rg; ?>" target="_blank"><i class="fab fa-researchgate fa-2x"></i></a>
+            </div>
+            <?php
+            }
             if (is_null($email)) {
               $noinfo++;
             }
@@ -136,12 +148,12 @@
             ?>
             <!-- Correo -->
             <div style="padding-bottom: 20px;">
-              <a href="mailto:some@email.com" target="_blank" class="btn btn-outline-primary"><?php echo $email; ?></a>
+              <a href="mailto:<?php echo $email; ?>" target="_blank" class="btn btn-outline-primary"><?php echo $email; ?></a>
             </div>
             <?php
             }
 
-            if ($noinfo == 3) {
+            if ($noinfo == 4) {
             ?>
             <h6>Sin mas información por mostrar disponible.</h6>
             <?php
