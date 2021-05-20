@@ -11,7 +11,7 @@
     die("Error al conectar al servidor: " . mysqli_connect_error());
 
   $label = $_POST['txtLabel'];
-  $query = "SELECT ID, FichaCurricular, Puesto, Grado, Foto, Correo FROM Miembro WHERE Etiqueta='" . $label . "'";
+  $query = "SELECT ID, FichaCurricular, Puesto, Grado, Foto, Correo, ResearchGate FROM Miembro WHERE Etiqueta='" . $label . "'";
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result);
   $id = $row['ID'];
@@ -19,6 +19,7 @@
   $position = $row['Puesto'];
   $grade = $row['Grado'];
   $email = $row['Correo'];
+  $rg = $row['ResearchGate'];
 
   if (is_null($row['Foto']))
     $photo = "../../imgs/placeholder-user.jpg";
@@ -195,19 +196,28 @@
         </div>
         <!-- Papers -->
         <?php
-        $query = "SELECT Titulo, url, Foto FROM Publicacion WHERE IdMiembro = " . $id;
+        $query = "SELECT IdPublicacion FROM PublicacionMiembros WHERE IdMiembro = $id";
         $result = mysqli_query($conn, $query);
+        $num_rows = mysqli_num_rows($result);
+        // retrieving ids from papers assosiated to member
+        $idpapers = array();
+        while ($row = mysqli_fetch_array($result)) {
+          array_push($idpapers, $row["IdPublicacion"]);
+        }
 
         $titles = array();
         $urls = array();
         $photos = array();
 
-        $num_rows = mysqli_num_rows($result);
+        foreach ($idpapers as $idpaper) {
+          $query = "SELECT Titulo, url, Foto FROM Publicacion WHERE ID = $idpaper";
+          $result = mysqli_query($conn, $query);
 
-        while ($row = mysqli_fetch_array($result)) {
-          array_push($titles, $row['Titulo']);
-          array_push($urls, $row['url']);
-          array_push($photos, $row['Foto']);
+          while ($row = mysqli_fetch_array($result)) {
+            array_push($titles, $row['Titulo']);
+            array_push($urls, $row['url']);
+            array_push($photos, $row['Foto']);
+          }          
         }
         ?>
         <div class="collapse multi-collapse" id="papers">
