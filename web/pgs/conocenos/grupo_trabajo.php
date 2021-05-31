@@ -89,14 +89,13 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
         array_push($lbls, $row["Etiqueta"]);
         array_push($phts, $row["Foto"]);
       }
-
       // Remove members that not contain "eugenia" or "elias"
       for ($i=0; $i < count($lbls); $i++) { 
         if (!str_contains(strtolower($lbls[$i]), NOM_MEM1) && !str_contains(strtolower($lbls[$i]), NOM_MEM2)) {
           unset($lbls[$i]);
-          array_splice($lbls, 0);
         }
       }
+
       $WHERE_CLAUSE = "";
       if (count($lbls) >= 1) {
         $WHERE_CLAUSE = " WHERE Etiqueta != '$lbls[0]'";
@@ -105,15 +104,29 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
         $WHERE_CLAUSE .= " AND Etiqueta != '$lbls[1]'";
       }
 
+      if (count($lbls) == 1) {
       ?>
-
+        <div class="row justify-content-md-center align-items-center">
+      <?php
+      }
+      else {
+      ?>
         <div class="row">
+      <?php
+      }
+      ?>
+        
         <?php
         if (mysqli_num_rows($result) > 0) {
           for ($i=0; $i < count($lbls); $i++) { 
         ?>
-          <!-- TODO: Center if it's only one principal member -->
+        <?php
+          if (count($lbls) != 1) {
+          ?>
           <div class="col-xs-12 col-sm-6 col-md-6">
+          <?php
+          }
+          ?>
             <div class="card">
               <div class="media">
                 <a href="#" class="pull-left" id="<?php echo $lbls[$i]; ?>" onclick="memberClicked(this);">
@@ -124,7 +137,13 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
                 </div>
               </div>
             </div>
+          <?php
+          if (count($lbls) != 1) {
+          ?>
           </div>
+          <?php
+          }
+          ?>
         <?php
           }
         }
@@ -134,9 +153,6 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
     <br>
     <!-- Members -->
     <div class="container">
-    <script>
-    console.log("<?php echo "SELECT Etiqueta, Foto FROM Miembro" . $WHERE_CLAUSE; ?>");
-    </script>
       <?php        
         // $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro WHERE Etiqueta != '" . NOM_ELIAS ."' AND Etiqueta != '" . NOM_EUGEN . "'");
         $query = "SELECT Etiqueta, Foto FROM Miembro" . $WHERE_CLAUSE;
