@@ -1,3 +1,9 @@
+<?php
+define('NOM_MEM1', 'eugenia');
+define('NOM_MEM2', 'elias');
+define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -63,58 +69,101 @@
 
     <!-- Principal Members -->
     <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <div class="card">
-              <div class="media">
-                  <a href="#" class="pull-left">
-                      <img src="https://lh3.googleusercontent.com/pw/ACtC-3f7H4Qdp8ngzVzouDbC8Wib6EAM7TY8axHu5D4pKmVytZyA6XZHBDtgpmi78c13cuI-mHjA9dPU-mFTUruzmaQqd5tyJDJa9QRmhIM7gI_gqgofsnibGfFYWgVGFtJScDF2ablZlY8vu76rtQeZHP5w=s1000-no?authuser=2" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
-                  </a>
-                  <div class="media-body">
-                    <h2 class="media-heading">Dra. Eugenia López López</h2>
-                    <!-- <p>Numero</p>
-                    <p>Correo</p> -->
-                  </div>
-              </div>
-          </div>
+      <?php
+      // defining str_contains function
+      if (!function_exists('str_contains')) {
+        function str_contains(string $haystack, string $needle): bool
+        {
+            return '' === $needle || false !== strpos($haystack, $needle);
+        }
+      }
 
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <div class="card">
-            <div class="media">
-                <a href="#" class="pull-left">
-                    <img src="https://lh3.googleusercontent.com/pw/ACtC-3e7XjKKSB0HjTSTufBTEwwhVlTvDdA7VytoqbAwscNtAIrtHUWjSKNj01g0oEvhniXFXaJ9RZ94AI49nmPBBhCboTzw8Px_y0LXftHTt-Kt2cYMFbJSjaa9wc_L-pAxbcE20Mgl1-WjgROQQRH-rcZE=s1000-no?authuser=2" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
+      include '../../database/evaseacdb.php';
+      $conn = open_database();
+      
+      $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro ORDER BY ID ASC LIMIT 2");
+
+      $lbls = array();
+      $phts = array();
+      while ($row = mysqli_fetch_array($result)) {
+        array_push($lbls, $row["Etiqueta"]);
+        array_push($phts, $row["Foto"]);
+      }
+      // Remove members that not contain "eugenia" or "elias"
+      for ($i=0; $i < count($lbls); $i++) { 
+        if (!str_contains(strtolower($lbls[$i]), NOM_MEM1) && !str_contains(strtolower($lbls[$i]), NOM_MEM2)) {
+          unset($lbls[$i]);
+        }
+      }
+
+      $WHERE_CLAUSE = "";
+      if (count($lbls) >= 1) {
+        $WHERE_CLAUSE = " WHERE Etiqueta != '$lbls[0]'";
+      }
+      if (count($lbls) == 2) {
+        $WHERE_CLAUSE .= " AND Etiqueta != '$lbls[1]'";
+      }
+
+      if (count($lbls) == 1) {
+      ?>
+        <div class="row justify-content-md-center align-items-center">
+      <?php
+      }
+      else {
+      ?>
+        <div class="row">
+      <?php
+      }
+      ?>
+        
+        <?php
+        if (mysqli_num_rows($result) > 0) {
+          for ($i=0; $i < count($lbls); $i++) { 
+        ?>
+        <?php
+          if (count($lbls) != 1) {
+          ?>
+          <div class="col-xs-12 col-sm-6 col-md-6">
+          <?php
+          }
+          ?>
+            <div class="card">
+              <div class="media">
+                <a href="#" class="pull-left" id="<?php echo $lbls[$i]; ?>" onclick="memberClicked(this);">
+                  <img src="<?php echo (!is_null($phts[$i])) ? $phts[$i] : PLACEHOLDER; ?>" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
                 </a>
                 <div class="media-body">
-                  <h2 class="media-heading">M. en C. J. Elias Sedeño Díaz</h2>
-                  <!-- <p>Numero</p>
-                  <p>Correo</p> -->
+                  <h2 class="media-heading"><?php echo $lbls[$i]; ?></h2>
                 </div>
+              </div>
             </div>
+          <?php
+          if (count($lbls) != 1) {
+          ?>
           </div>
+          <?php
+          }
+          ?>
+        <?php
+          }
+        }
+        ?>
         </div>
-      </div>
     </div>
     <br>
     <!-- Members -->
     <div class="container">
-      <?php
-        include '../../database/evaseacdb.php';
-
-        $conn = open_database();
-
-        $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro");
+      <?php        
+        // $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro WHERE Etiqueta != '" . NOM_ELIAS ."' AND Etiqueta != '" . NOM_EUGEN . "'");
+        $query = "SELECT Etiqueta, Foto FROM Miembro" . $WHERE_CLAUSE;
+        $result = mysqli_query($conn, $query);
 
         $labels = array();
         $photos = array();
 
-        $i = 0;
         while ($row = mysqli_fetch_array($result)) {
           array_push($labels, $row["Etiqueta"]);
           array_push($photos, $row["Foto"]);
-          // $members[$i][1] = $row["Foto"];
-
-          $i++;
         }
       ?>
 

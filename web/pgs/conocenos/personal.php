@@ -11,7 +11,7 @@
     die("Error al conectar al servidor: " . mysqli_connect_error());
 
   $label = $_POST['txtLabel'];
-  $query = "SELECT ID, FichaCurricular, Puesto, Grado, Foto, Correo FROM Miembro WHERE Etiqueta='" . $label . "'";
+  $query = "SELECT ID, FichaCurricular, Puesto, Grado, Foto, Correo, ResearchGate FROM Miembro WHERE Etiqueta='" . $label . "'";
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result);
   $id = $row['ID'];
@@ -19,6 +19,7 @@
   $position = $row['Puesto'];
   $grade = $row['Grado'];
   $email = $row['Correo'];
+  $rg = $row['ResearchGate'];
 
   if (is_null($row['Foto']))
     $photo = "../../imgs/placeholder-user.jpg";
@@ -42,6 +43,8 @@
     <link href="../../css/custom.css" rel="stylesheet">
     <!-- Icon -->
     <link rel="icon" href="../../imgs/Evaseac.ico">
+    <!-- mdbootsrap icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
     <style media="screen">
       div.personalInfo {
@@ -128,6 +131,16 @@
             <p class="font-weight-light"><?php echo $position; ?></p>
             <?php
             }
+            if (is_null($rg)) {
+              $noinfo++;
+            }
+            else{
+            ?>
+            <div style="padding-bottom: 10px; padding-left: 1.5%;">
+              <a href="<?php echo $rg; ?>" target="_blank"><i class="fab fa-researchgate fa-2x"></i></a>
+            </div>
+            <?php
+            }
             if (is_null($email)) {
               $noinfo++;
             }
@@ -135,12 +148,12 @@
             ?>
             <!-- Correo -->
             <div style="padding-bottom: 20px;">
-              <a href="mailto:some@email.com" target="_blank" class="btn btn-outline-primary"><?php echo $email; ?></a>
+              <a href="mailto:<?php echo $email; ?>" target="_blank" class="btn btn-outline-primary"><?php echo $email; ?></a>
             </div>
             <?php
             }
 
-            if ($noinfo == 3) {
+            if ($noinfo == 4) {
             ?>
             <h6>Sin mas información por mostrar disponible.</h6>
             <?php
@@ -179,93 +192,102 @@
         </p>
       </center>
       <!-- Curriculum -->
-        <div class="collapse multi-collapse" id="curriculum">
-          <div class="card card-body">
-            <?php
-            if (is_null($curriculum)) {
-            ?>
-            <h6>Sin ficha curricular disponible.</h6>
-            <?php
-            }
-            else {
-              echo $curriculum;
-            }
-            ?>
-          </div>
+      <div class="collapse multi-collapse" id="curriculum">
+        <div class="card card-body">
+          <?php
+          if (is_null($curriculum)) {
+          ?>
+          <h6>Sin ficha curricular disponible.</h6>
+          <?php
+          }
+          else {
+            echo $curriculum;
+          }
+          ?>
         </div>
-        <!-- Papers -->
-        <?php
-        $query = "SELECT Titulo, url, Foto FROM Publicacion WHERE IdMiembro = " . $id;
+      </div>
+      <!-- Papers -->
+      <?php
+      $query = "SELECT IdPublicacion FROM PublicacionMiembros WHERE IdMiembro = $id";
+      $result = mysqli_query($conn, $query);
+      $num_rows = mysqli_num_rows($result);
+      // retrieving ids from papers assosiated to member
+      $idpapers = array();
+      while ($row = mysqli_fetch_array($result)) {
+        array_push($idpapers, $row["IdPublicacion"]);
+      }
+
+      $titles = array();
+      $urls = array();
+      $photos = array();
+
+      foreach ($idpapers as $idpaper) {
+        $query = "SELECT Titulo, url, Foto FROM Publicacion WHERE ID = $idpaper";
         $result = mysqli_query($conn, $query);
-
-        $titles = array();
-        $urls = array();
-        $photos = array();
-
-        $num_rows = mysqli_num_rows($result);
 
         while ($row = mysqli_fetch_array($result)) {
           array_push($titles, $row['Titulo']);
           array_push($urls, $row['url']);
           array_push($photos, $row['Foto']);
+        }          
+      }
+      ?>
+      <div class="collapse multi-collapse" id="papers">
+        <div class="card card-body">
+      <?php
+        if (mysqli_num_rows($result) == 0) {
+      ?>
+          <h6>Sin publicaciones disponibles.</h6>
+      <?php
         }
-        ?>
-        <div class="collapse multi-collapse" id="papers">
-          <div class="card card-body">
+        else {
+      ?>
+          <center>
         <?php
-          if (mysqli_num_rows($result) == 0) {
+        for ($i=0; $i < count($urls); $i += 3) {
         ?>
-            <h6>Sin publicaciones disponibles.</h6>
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4">
+                  <a href="<?php echo $urls[$i]; ?>" target="_blank">
+                    <img src="<?php echo $photos[$i]; ?>" style="width:210px; height:280px;">
+                  </a>
+                  <br>
+                  <h5 style="text-shadow: 2px 2px 0px #FFFFFF;"><?php echo $titles[$i]; ?></h5>
+                </div>
+                <br><br><br>
+        <?php
+          if ($i + 1 < count($urls)) {
+        ?>
+                <div class="col-xs-12 col-sm-12 col-md-4">
+                  <a href="<?php echo $urls[$i + 1]; ?>" target="_blank">
+                    <img src="<?php echo $photos[$i + 1]; ?>" style="width:210px; height:280px;">
+                  </a>
+                  <br>
+                  <h5><?php echo $titles[$i + 1]; ?></h5>
+                </div>
+                <br><br><br>
         <?php
           }
-          else {
+          if ($i + 2 < count($urls)) {
         ?>
-            <center>
-          <?php
-          for ($i=0; $i < count($urls); $i += 3) {
-          ?>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-4">
-                    <a href="<?php echo $urls[$i]; ?>">
-                      <img src="<?php echo $photos[$i]; ?>" style="width:210px; height:280px;">
-                    </a>
-                    <br>
-                    <h5 style="text-shadow: 2px 2px 0px #FFFFFF;"><?php echo $titles[$i]; ?></h5>
-                  </div>
-                  <br><br><br>
-          <?php
-            if ($i + 1 < count($urls)) {
-          ?>
-                  <div class="col-xs-12 col-sm-12 col-md-4">
-                    <a href="<?php echo $urls[$i + 1]; ?>">
-                      <img src="<?php echo $photos[$i + 1]; ?>" style="width:210px; height:280px;">
-                    </a>
-                    <br>
-                    <h5><?php echo $titles[$i + 1]; ?></h5>
-                  </div>
-                  <br><br><br>
-          <?php
-            }
-            if ($i + 2 < count($urls)) {
-          ?>
-                  <div class="col-xs-12 col-sm-12 col-md-4">
-                    <a href="<?php echo $urls[$i + 2]; ?>">
-                      <img src="<?php echo $photos[$i + 2]; ?>" style="width:210px; height:280px;">
-                    </a>
-                    <br>
-                    <h5><?php echo $titles[$i + 2]; ?></h5>
-                  </div>
-                  <br><br><br>
-          <?php
-            }
-          ?>
-            </div>
-          <?php
+                <div class="col-xs-12 col-sm-12 col-md-4">
+                  <a href="<?php echo $urls[$i + 2]; ?>" target="_blank">
+                    <img src="<?php echo $photos[$i + 2]; ?>" style="width:210px; height:280px;">
+                  </a>
+                  <br>
+                  <h5><?php echo $titles[$i + 2]; ?></h5>
+                </div>
+                <br><br><br>
+        <?php
           }
+        ?>
+          </div>
+        <?php
         }
-          ?>
-          </center>
-        </div>
+      }
+        ?>
+        </center>
+      </div>
       </div>
     </div>
 
