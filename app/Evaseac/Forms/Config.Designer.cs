@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConfig));
             this.Menu = new System.Windows.Forms.GroupBox();
+            this.btnImport = new System.Windows.Forms.Button();
             this.btnPreference = new System.Windows.Forms.Button();
             this.btnAdmin = new System.Windows.Forms.Button();
             this.lblCurPass = new System.Windows.Forms.Label();
@@ -42,13 +43,20 @@
             this.txtCurrentPass = new System.Windows.Forms.TextBox();
             this.pnlPreferences = new System.Windows.Forms.Panel();
             this.chkAskParams = new System.Windows.Forms.CheckBox();
+            this.pnlImport = new System.Windows.Forms.Panel();
+            this.btnImportDatabase = new System.Windows.Forms.Button();
+            this.lblFileInstructions = new System.Windows.Forms.Label();
+            this.btnSelectSQLFile = new System.Windows.Forms.Button();
+            this.lblFileSelected = new System.Windows.Forms.Label();
             this.Menu.SuspendLayout();
             this.pnlAdmin.SuspendLayout();
             this.pnlPreferences.SuspendLayout();
+            this.pnlImport.SuspendLayout();
             this.SuspendLayout();
             // 
             // Menu
             // 
+            this.Menu.Controls.Add(this.btnImport);
             this.Menu.Controls.Add(this.btnPreference);
             this.Menu.Controls.Add(this.btnAdmin);
             this.Menu.Dock = System.Windows.Forms.DockStyle.Left;
@@ -57,6 +65,25 @@
             this.Menu.Size = new System.Drawing.Size(200, 328);
             this.Menu.TabIndex = 0;
             this.Menu.TabStop = false;
+            // 
+            // btnImport
+            // 
+            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImport.BackColor = System.Drawing.Color.Transparent;
+            this.btnImport.FlatAppearance.BorderSize = 0;
+            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImport.ForeColor = System.Drawing.Color.DimGray;
+            this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImport.Location = new System.Drawing.Point(1, 200);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(200, 35);
+            this.btnImport.TabIndex = 6;
+            this.btnImport.TabStop = false;
+            this.btnImport.Text = "Importar";
+            this.btnImport.UseVisualStyleBackColor = false;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // btnPreference
             // 
@@ -68,7 +95,7 @@
             this.btnPreference.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPreference.ForeColor = System.Drawing.Color.DimGray;
             this.btnPreference.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPreference.Location = new System.Drawing.Point(0, 165);
+            this.btnPreference.Location = new System.Drawing.Point(0, 155);
             this.btnPreference.Name = "btnPreference";
             this.btnPreference.Size = new System.Drawing.Size(200, 35);
             this.btnPreference.TabIndex = 5;
@@ -87,7 +114,7 @@
             this.btnAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdmin.ForeColor = System.Drawing.Color.DimGray;
             this.btnAdmin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAdmin.Location = new System.Drawing.Point(0, 120);
+            this.btnAdmin.Location = new System.Drawing.Point(0, 110);
             this.btnAdmin.Name = "btnAdmin";
             this.btnAdmin.Size = new System.Drawing.Size(200, 35);
             this.btnAdmin.TabIndex = 3;
@@ -216,12 +243,65 @@
             this.chkAskParams.UseVisualStyleBackColor = true;
             this.chkAskParams.CheckedChanged += new System.EventHandler(this.chkAskParams_CheckedChanged);
             // 
+            // pnlImport
+            // 
+            this.pnlImport.Controls.Add(this.btnImportDatabase);
+            this.pnlImport.Controls.Add(this.lblFileInstructions);
+            this.pnlImport.Controls.Add(this.btnSelectSQLFile);
+            this.pnlImport.Controls.Add(this.lblFileSelected);
+            this.pnlImport.Location = new System.Drawing.Point(220, 15);
+            this.pnlImport.Name = "pnlImport";
+            this.pnlImport.Size = new System.Drawing.Size(285, 313);
+            this.pnlImport.TabIndex = 5;
+            // 
+            // btnImportDatabase
+            // 
+            this.btnImportDatabase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportDatabase.Location = new System.Drawing.Point(108, 134);
+            this.btnImportDatabase.Name = "btnImportDatabase";
+            this.btnImportDatabase.Size = new System.Drawing.Size(75, 29);
+            this.btnImportDatabase.TabIndex = 3;
+            this.btnImportDatabase.Text = "Importar";
+            this.btnImportDatabase.UseVisualStyleBackColor = true;
+            this.btnImportDatabase.Click += new System.EventHandler(this.btnImportDatabase_Click);
+            // 
+            // lblFileInstructions
+            // 
+            this.lblFileInstructions.AutoSize = true;
+            this.lblFileInstructions.Location = new System.Drawing.Point(13, 34);
+            this.lblFileInstructions.Name = "lblFileInstructions";
+            this.lblFileInstructions.Size = new System.Drawing.Size(141, 16);
+            this.lblFileInstructions.TabIndex = 2;
+            this.lblFileInstructions.Text = "Archivo seleccionado:";
+            // 
+            // btnSelectSQLFile
+            // 
+            this.btnSelectSQLFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSelectSQLFile.Location = new System.Drawing.Point(13, 73);
+            this.btnSelectSQLFile.Name = "btnSelectSQLFile";
+            this.btnSelectSQLFile.Size = new System.Drawing.Size(172, 26);
+            this.btnSelectSQLFile.TabIndex = 1;
+            this.btnSelectSQLFile.Text = "Seleccionar archivo SQL";
+            this.btnSelectSQLFile.UseVisualStyleBackColor = true;
+            this.btnSelectSQLFile.Click += new System.EventHandler(this.btnSelectSQLFile_Click);
+            // 
+            // lblFileSelected
+            // 
+            this.lblFileSelected.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFileSelected.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblFileSelected.Location = new System.Drawing.Point(10, 53);
+            this.lblFileSelected.Name = "lblFileSelected";
+            this.lblFileSelected.Size = new System.Drawing.Size(263, 17);
+            this.lblFileSelected.TabIndex = 0;
+            this.lblFileSelected.Text = "Sin ningún archivo seleccionado";
+            // 
             // frmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(514, 336);
+            this.Controls.Add(this.pnlImport);
             this.Controls.Add(this.Menu);
             this.Controls.Add(this.pnlAdmin);
             this.Controls.Add(this.pnlPreferences);
@@ -243,6 +323,8 @@
             this.pnlAdmin.PerformLayout();
             this.pnlPreferences.ResumeLayout(false);
             this.pnlPreferences.PerformLayout();
+            this.pnlImport.ResumeLayout(false);
+            this.pnlImport.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -262,5 +344,11 @@
         private System.Windows.Forms.Button btnPreference;
         private System.Windows.Forms.Panel pnlPreferences;
         private System.Windows.Forms.CheckBox chkAskParams;
+        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Panel pnlImport;
+        private System.Windows.Forms.Button btnSelectSQLFile;
+        private System.Windows.Forms.Label lblFileSelected;
+        private System.Windows.Forms.Label lblFileInstructions;
+        private System.Windows.Forms.Button btnImportDatabase;
     }
 }
