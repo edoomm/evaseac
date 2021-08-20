@@ -283,8 +283,17 @@ namespace Evaseac
         {
             if (String.IsNullOrEmpty(value))
                 return "NULL";
-            if (!int.TryParse(value, out int res))
-                return "'" + value + "'";
+            if (!double.TryParse(value, out double res))
+            {
+                // if it is a string
+                if (!value.Contains("12:00:00"))
+                    return "'" + value + "'";
+
+                // Converting to SQL datetime format
+                string date = DateTime.Parse(value.Split()[0]).ToString("yyyy'-'MM'-'dd");
+                string time = "00:00:00";
+                return "'" + date + " " + time + "'";
+            }
 
             return value;
         }
