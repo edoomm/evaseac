@@ -2,7 +2,7 @@
     include '../../database/evaseacdb.php';
     
     $content = '';
-    $table_names = array("parametroscrudo", "parametros", "imagenes", "parametrospsitios", "parametrosp", "prueba", "generossitios", "genero", "familiassitios", "familia",
+    $table_names = array("publicacionmiembros", "parametroscrudo", "parametros", "imagenes", "parametrospsitios", "parametrosp", "prueba", "generossitios", "genero", "familiassitios", "familia",
         "orden", "clase", "temporada", "sitio", "proyecto", "publicacion", "miembro", "area", "usuario");
     $conn = open_database();
     if (!$conn)
@@ -32,10 +32,6 @@
                         $content .= get_sql_value($value) . ",";
                     }
                 }
-                // // $content .= $row[0];
-                // foreach ($row as $element) {
-                //     $content .= $element . ",";
-                // }
                 $content = rtrim($content, ", ");
                 $content .= "\n";
             }
