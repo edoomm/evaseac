@@ -67,6 +67,24 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
 
     <br>
 
+    <?php
+    // Check if there are members in the database
+    include '../../database/evaseacdb.php';
+    $conn = open_database();
+
+    if(table_number_of_rows("Miembro") == 0) {
+    ?>
+    <div class="container">
+      <div class="jumbotron">
+        <h2>
+          No existe registro del personal de laboratorio en la base de datos actual.
+        </h2>
+      </div>
+    </div>
+    <?php
+    }
+    else {
+    ?>
     <!-- Principal Members -->
     <div class="container">
       <?php
@@ -78,9 +96,6 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
         }
       }
 
-      include '../../database/evaseacdb.php';
-      $conn = open_database();
-      
       $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro ORDER BY ID ASC LIMIT 10");
 
       $chiefs_labels = array();
@@ -215,6 +230,9 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
         }
       ?>
     </div>
+    <?php
+    }
+    ?>
     <br><br>
 
     <!-- Hidden required form to update mysql table -->
