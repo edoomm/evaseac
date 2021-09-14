@@ -51,7 +51,7 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
               <font class="lead">Conócenos</font>
             </a>
             <div class="dropdown-menu" aria-labelledby="nav_conocenos">
-              <a class="dropdown-item" href="grupo_trabajo.html">Grupo de trabajo</a>
+              <a class="dropdown-item" href="grupo_trabajo.php">Grupo de trabajo</a>
               <a class="dropdown-item" href="investigacion.html">Investigación</a>
             </div>
           </li>
@@ -81,30 +81,36 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
       include '../../database/evaseacdb.php';
       $conn = open_database();
       
-      $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro ORDER BY ID ASC LIMIT 2");
+      $result = mysqli_query($conn, "SELECT Etiqueta, Foto FROM Miembro ORDER BY ID ASC LIMIT 10");
 
-      $lbls = array();
-      $phts = array();
+      $chiefs_labels = array();
+      $chiefs_photos = array();
       while ($row = mysqli_fetch_array($result)) {
-        array_push($lbls, $row["Etiqueta"]);
-        array_push($phts, $row["Foto"]);
+        array_push($chiefs_labels, $row["Etiqueta"]);
+        array_push($chiefs_photos, $row["Foto"]);
       }
       // Remove members that not contain "eugenia" or "elias"
-      for ($i=0; $i < count($lbls); $i++) { 
-        if (!str_contains(strtolower($lbls[$i]), NOM_MEM1) && !str_contains(strtolower($lbls[$i]), NOM_MEM2)) {
-          unset($lbls[$i]);
+      $index = 0;
+      foreach ($chiefs_labels as $label) {
+        if (!str_contains(strtolower($label), NOM_MEM1) && !str_contains(strtolower($label), NOM_MEM2)) {
+          unset($chiefs_labels[$index]);
+          unset($chiefs_photos[$index]);
         }
+        $index++;
       }
+
+      $chiefs_labels = array_values($chiefs_labels);
+      $chiefs_photos = array_values($chiefs_photos);
 
       $WHERE_CLAUSE = "";
-      if (count($lbls) >= 1) {
-        $WHERE_CLAUSE = " WHERE Etiqueta != '$lbls[0]'";
+      if (count($chiefs_labels) >= 1) {
+        $WHERE_CLAUSE = " WHERE Etiqueta != '$chiefs_labels[0]'";
       }
-      if (count($lbls) == 2) {
-        $WHERE_CLAUSE .= " AND Etiqueta != '$lbls[1]'";
+      if (count($chiefs_labels) == 2) {
+        $WHERE_CLAUSE .= " AND Etiqueta != '$chiefs_labels[1]'";
       }
 
-      if (count($lbls) == 1) {
+      if (count($chiefs_labels) == 1) {
       ?>
         <div class="row justify-content-md-center align-items-center">
       <?php
@@ -118,10 +124,10 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
         
         <?php
         if (mysqli_num_rows($result) > 0) {
-          for ($i=0; $i < count($lbls); $i++) { 
+          for ($i=0; $i < count($chiefs_labels); $i++) { 
         ?>
         <?php
-          if (count($lbls) != 1) {
+          if (count($chiefs_labels) != 1) {
           ?>
           <div class="col-xs-12 col-sm-6 col-md-6">
           <?php
@@ -129,16 +135,16 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
           ?>
             <div class="card">
               <div class="media">
-                <a href="#" class="pull-left" id="<?php echo $lbls[$i]; ?>" onclick="memberClicked(this);">
-                  <img src="<?php echo (!is_null($phts[$i])) ? $phts[$i] : PLACEHOLDER; ?>" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
+                <a href="#" class="pull-left" id="<?php echo $chiefs_labels[$i]; ?>" onclick="memberClicked(this);">
+                  <img src="<?php echo (!is_null($chiefs_photos[$i])) ? $chiefs_photos[$i] : PLACEHOLDER; ?>" class="media-object" alt="Sample Image" style="padding-right: 15px; height: 200px;">
                 </a>
                 <div class="media-body">
-                  <h2 class="media-heading"><?php echo $lbls[$i]; ?></h2>
+                  <h2 class="media-heading"><?php echo $chiefs_labels[$i]; ?></h2>
                 </div>
               </div>
             </div>
           <?php
-          if (count($lbls) != 1) {
+          if (count($chiefs_labels) != 1) {
           ?>
           </div>
           <?php
@@ -165,9 +171,6 @@ define('PLACEHOLDER', '../../imgs/placeholder-user.jpg');
           array_push($labels, $row["Etiqueta"]);
           array_push($photos, $row["Foto"]);
         }
-      ?>
-
-      <?php
         for ($i=0; $i < count($labels); $i++) {
           if (($i % 3) == 0) {
       ?>
