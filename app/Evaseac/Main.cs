@@ -242,13 +242,21 @@ namespace Evaseac
             }
         }
 
+        private bool AcceptClick(string password)
+        {
+            var confirmationBox = new Boxes.Generic("Confirme la contraseña", accept: "Aceptar", cancel: "Cancelar");
+            confirmationBox.ShowDialog();
+            Messages.Log(confirmationBox.TextBoxString);
+            return true;
+        }
+
         private void btnConfig_Click(object sender, EventArgs e)
         {
             if (DB.Select("SELECT * FROM Usuario WHERE usuario = 'admin'").Rows.Count == 0)
             {
                 string message = "No se encuentra ningun perfil de administrador en la base de datos. Es necesario establecer una contraseña para este "
                     + "perfil de usuario, el cual es de vital importancia para esta aplicación así como para la página web";
-                new Boxes.Generic(message).ShowDialog();
+                new Boxes.Generic(message: message, title: "Aviso", accept: "Aceptar", cancel: "Cancelar", isPassword: true, acceptClick: AcceptClick).ShowDialog();
 
                 return;
             }
