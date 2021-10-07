@@ -244,6 +244,15 @@ namespace Evaseac
 
         private void btnConfig_Click(object sender, EventArgs e)
         {
+            if (DB.Select("SELECT * FROM Usuario WHERE usuario = 'admin'").Rows.Count == 0)
+            {
+                string message = "No se encuentra ningun perfil de administrador en la base de datos. Es necesario establecer una contraseña para este "
+                    + "perfil de usuario, el cual es de vital importancia para esta aplicación así como para la página web";
+                new Boxes.Generic(message).ShowDialog();
+
+                return;
+            }
+
             if (DB.getData("password", "Usuario", "WHERE usuario = 'admin'") != "")
             {
                 using (frmPassword frm = new frmPassword())
@@ -268,7 +277,6 @@ namespace Evaseac
             else if (result == DialogResult.Yes)
                 csvExport();
         }
-
 
         private void btnHover_MouseEnter(object sender, EventArgs e)
         {

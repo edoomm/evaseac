@@ -136,6 +136,12 @@
     <Compile Include="Boxes\EditArea.Designer.cs">
       <DependentUpon>EditArea.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boxes\GenericBoxTextBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Boxes\GenericBoxTextBox.Designer.cs">
+      <DependentUpon>GenericBoxTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boxes\GoogleDriveFiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Boxes\EditParam.resx">
       <DependentUpon>EditParam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Boxes\GenericBoxTextBox.resx">
+      <DependentUpon>GenericBoxTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Boxes\GoogleDriveFiles.resx">
       <DependentUpon>GoogleDriveFiles.cs</DependentUpon>
