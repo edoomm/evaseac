@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Evaseac.Boxes
 {
     public partial class Generic : Form
     {
-        private Func<string, bool> _AcceptClick;
+        private Func<object, bool> _AcceptClick;
 
-        public Generic(string message, string title = "", string accept = "Accept", string cancel = "Cancel", bool isPassword = false, Func<string, bool> acceptClick = null)
+        public Generic(string message, string title = "", string accept = "Accept", string cancel = "Cancel", bool isPassword = false, Func<object, bool> acceptClick = null)
         {
             if (message.Length > 897)
                 throw new OverflowException("The message is too long");
@@ -31,12 +25,17 @@ namespace Evaseac.Boxes
             ComponentsRelocation();
         }
 
-        //public Generic(string message, string title) : this(message)
-        //{
-        //    this.Text = title;
-        //}
-
-        public string TextBoxString { get; set; }
+        public string TextBoxString
+        {
+            get
+            {
+                return TextBox.Text;
+            }
+            set
+            {
+                TextBox.Text = value;
+            }
+        }
 
         private void ComponentsRelocation()
         {
@@ -48,20 +47,24 @@ namespace Evaseac.Boxes
             this.Height += height * factor;
         }
 
-        private void TextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            //if (e.KeyData == Keys.Enter)
-            //    btnAccept.PerformClick();
-        }
-
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            TextBoxString = TextBox.Text;
-
             if (_AcceptClick == null)
                 this.Close();
             else if (this._AcceptClick != null && !String.IsNullOrEmpty(TextBoxString))
-                _AcceptClick(TextBoxString);
+                if (_AcceptClick(this))
+                    InsertAdminPassword();
         }
+
+
+        #region Insert admin password
+
+        private void InsertAdminPassword()
+        {
+            if (DB.Insert("INSERT INTO Usuario (usuario, password) VALUE ('admin', '" + TextBoxString + "')"))
+                MessageBox.Show("Contraseña establecida correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        #endregion
     }
 }

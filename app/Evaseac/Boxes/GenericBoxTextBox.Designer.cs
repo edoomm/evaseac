@@ -47,12 +47,12 @@ namespace Evaseac.Boxes
             this.TextBox.Size = new System.Drawing.Size(200, 28);
             this.TextBox.TabIndex = 14;
             this.TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TextBox_PreviewKeyDown);
             // 
             // btnAccept
             // 
             this.btnAccept.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnAccept.BackColor = System.Drawing.Color.White;
+            this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnAccept.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.SystemColors.ActiveCaption;

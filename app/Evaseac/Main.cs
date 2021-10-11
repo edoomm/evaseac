@@ -242,11 +242,25 @@ namespace Evaseac
             }
         }
 
-        private bool AcceptClick(string password)
+        private bool AcceptClick(object winform)
         {
-            var confirmationBox = new Boxes.Generic("Confirme la contraseña", accept: "Aceptar", cancel: "Cancelar");
-            confirmationBox.ShowDialog();
-            Messages.Log(confirmationBox.TextBoxString);
+            var form = winform as Boxes.Generic;
+            var confirmationBox = new Boxes.Generic("Confirme la contraseña", accept: "Aceptar", cancel: "Cancelar", isPassword: true);
+
+            bool passwordMatch = false;
+            while (!passwordMatch)
+            {
+                if (confirmationBox.ShowDialog() != DialogResult.OK)
+                    return false;
+
+                passwordMatch = form.TextBoxString.Equals(confirmationBox.TextBoxString);
+                if (!passwordMatch)
+                {
+                    MessageBox.Show("Las contraseñas no coinciden vuelva a intenarlo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    confirmationBox.TextBoxString = "";
+                }
+            }
+
             return true;
         }
 
