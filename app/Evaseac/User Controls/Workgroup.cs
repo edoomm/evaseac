@@ -341,6 +341,34 @@ namespace Evaseac.User_Controls
 
         #endregion
 
+        #region Other functions
+
+        private bool AcceptClickNewArea(object winform)
+        {
+            var form = winform as Boxes.Generic;
+
+            if (DB.Select("SELECT * FROM Area WHERE Nombre = '" + form.TextBoxString + "'").Rows.Count > 0)
+            {
+                MessageBox.Show("El área '" + form.TextBoxString + "' ya existe en la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool InsertArea(object winform)
+        {
+            var form = winform as Boxes.Generic;
+
+            if (DB.Insert("INSERT INTO Area(Nombre) VALUE ('" + form.TextBoxString + "')"))
+                return true;
+
+            MessageBox.Show("El area no pudo ser ingresada correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
+        }
+
+        #endregion
+
         #region Add members section
 
         private DataTable dtMembers; // Variable for Add Member DataGridView
@@ -411,23 +439,25 @@ namespace Evaseac.User_Controls
             ReloadAmControls();
             MessageBox.Show("Miembro ingresado correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        
         private void cboAmArea_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboAmArea.SelectedIndex == cboAmArea.Items.Count - 2) // New
             {
-                new Boxes.NewArea().ShowDialog();
-
-                cboAmArea.SelectedIndex = -1;
-                FillAmAreaCombo();
+                new Boxes.Generic(message: "Inserte el nombre de la nueva área", accept: "Aceptar", cancel: "Cancelar", validationFunction: AcceptClickNewArea, actionFunction: InsertArea).ShowDialog();
             }
             else if (cboAmArea.SelectedIndex == cboAmArea.Items.Count - 1) // Edit
             {
                 new Boxes.EditArea().ShowDialog();
 
-                cboAmArea.SelectedIndex = -1;
-                FillAmAreaCombo();
                 FillEmAreaCombo();
                 FillAmMembersGrid();
+            }
+
+            if (cboAmArea.SelectedIndex >= cboAmArea.Items.Count - 2)
+            {
+                cboAmArea.SelectedIndex = -1;
+                FillAmAreaCombo();
             }
         }
         private void InsertAmTextboxes_KeyDown(object sender, KeyEventArgs e)

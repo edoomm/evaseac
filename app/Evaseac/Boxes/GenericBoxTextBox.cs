@@ -6,9 +6,10 @@ namespace Evaseac.Boxes
 {
     public partial class Generic : Form
     {
-        private Func<object, bool> _AcceptClick;
+        private Func<object, bool> _Validation;
+        private Func<object, bool> _Action;
 
-        public Generic(string message, string title = "", string accept = "Accept", string cancel = "Cancel", bool isPassword = false, Func<object, bool> acceptClick = null)
+        public Generic(string message, string title = "", string accept = "Accept", string cancel = "Cancel", bool isPassword = false, Func<object, bool> validationFunction = null, Func<object, bool> actionFunction = null)
         {
             if (message.Length > 897)
                 throw new OverflowException("The message is too long");
@@ -20,7 +21,8 @@ namespace Evaseac.Boxes
             this.btnCancel.Text = cancel;
             if (isPassword)
                 this.TextBox.PasswordChar = '●';
-            this._AcceptClick = acceptClick;
+            this._Validation = validationFunction;
+            this._Action = actionFunction;
 
             ComponentsRelocation();
         }
@@ -49,22 +51,11 @@ namespace Evaseac.Boxes
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (_AcceptClick == null)
+            if (_Validation == null)
                 this.Close();
-            else if (this._AcceptClick != null && !String.IsNullOrEmpty(TextBoxString))
-                if (_AcceptClick(this))
-                    InsertAdminPassword();
+            else if (this._Validation != null && !String.IsNullOrEmpty(TextBoxString))
+                if (_Validation(this) && _Action != null)
+                    _Action(this);
         }
-
-
-        #region Insert admin password
-
-        private void InsertAdminPassword()
-        {
-            if (DB.Insert("INSERT INTO Usuario (usuario, password) VALUE ('admin', '" + TextBoxString + "')"))
-                MessageBox.Show("Contraseña establecida correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        #endregion
     }
 }

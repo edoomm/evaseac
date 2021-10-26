@@ -24,7 +24,7 @@ namespace Evaseac
             ucpSites.setMain(this);
         }
 
-        //Methods
+        #region Methods
 
         private void UcpBringToFront(UserControl ucp)
         {
@@ -46,6 +46,8 @@ namespace Evaseac
         {
             btnParam.Enabled = state;
         }
+
+        #endregion
 
         #region Export
 
@@ -133,7 +135,46 @@ namespace Evaseac
 
         #endregion
 
-        //Events
+        #region Other functions
+
+        private bool AcceptClickPassword(object winform)
+        {
+            var form = winform as Boxes.Generic;
+            var confirmationBox = new Boxes.Generic("Confirme la contraseña", accept: "Aceptar", cancel: "Cancelar", isPassword: true);
+
+            bool passwordMatch = false;
+            while (!passwordMatch)
+            {
+                if (confirmationBox.ShowDialog() != DialogResult.OK)
+                    return false;
+
+                passwordMatch = form.TextBoxString.Equals(confirmationBox.TextBoxString);
+                if (!passwordMatch)
+                {
+                    MessageBox.Show("Las contraseñas no coinciden vuelva a intenarlo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    confirmationBox.TextBoxString = "";
+                }
+            }
+
+            return true;
+        }
+
+        private bool InsertAdminPassword(object winform)
+        {
+            var form = winform as Boxes.Generic;
+
+            if (DB.Insert("INSERT INTO Usuario (usuario, password) VALUE ('admin', '" + form.TextBoxString + "')"))
+            {
+                MessageBox.Show("Contraseña establecida correctamente", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Events
 
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -242,35 +283,13 @@ namespace Evaseac
             }
         }
 
-        private bool AcceptClick(object winform)
-        {
-            var form = winform as Boxes.Generic;
-            var confirmationBox = new Boxes.Generic("Confirme la contraseña", accept: "Aceptar", cancel: "Cancelar", isPassword: true);
-
-            bool passwordMatch = false;
-            while (!passwordMatch)
-            {
-                if (confirmationBox.ShowDialog() != DialogResult.OK)
-                    return false;
-
-                passwordMatch = form.TextBoxString.Equals(confirmationBox.TextBoxString);
-                if (!passwordMatch)
-                {
-                    MessageBox.Show("Las contraseñas no coinciden vuelva a intenarlo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    confirmationBox.TextBoxString = "";
-                }
-            }
-
-            return true;
-        }
-
         private void btnConfig_Click(object sender, EventArgs e)
         {
             if (DB.Select("SELECT * FROM Usuario WHERE usuario = 'admin'").Rows.Count == 0)
             {
                 string message = "No se encuentra ningun perfil de administrador en la base de datos. Es necesario establecer una contraseña para este "
                     + "perfil de usuario, el cual es de vital importancia para esta aplicación así como para la página web";
-                new Boxes.Generic(message: message, title: "Aviso", accept: "Aceptar", cancel: "Cancelar", isPassword: true, acceptClick: AcceptClick).ShowDialog();
+                new Boxes.Generic(message: message, title: "Aviso", accept: "Aceptar", cancel: "Cancelar", isPassword: true, validationFunction: AcceptClickPassword, actionFunction: InsertAdminPassword).ShowDialog();
 
                 return;
             }
@@ -313,6 +332,6 @@ namespace Evaseac
             btn.ForeColor = Color.White;
         }
 
-        //
+        #endregion
     }
 }
