@@ -11,11 +11,11 @@ Coder:
 - [@edoomm](https://github.com/edoomm) - Full stack developer
 
 Enablers:
-- [Laboratorio de Evaluación de la Salud de los Ecosistemas Acúaticos (Evaseac)](https://www.innovacioneduencb.ipn.mx/Evaseac/) - Users, data & requirement holders
-- [Departamento de Innovación Educativa](https://www.innovacioneduencb.ipn.mx/)
-- [Escuela Nacional de Ciencias Biológicas](https://www.encb.ipn.mx/)
-- [Programa Institucional de Formación de Investigadores](https://pifi.ipn.mx/)
-- [Instituto Politécnico Nacional](https://www.ipn.mx/)
+- [Laboratorio de Evaluación de la Salud de los Ecosistemas Acúaticos (Evaseac)](https://www.innovacioneduencb.ipn.mx/Evaseac/) - Users, data & requirement holders, testers and main enablers
+- [Departamento de Innovación Educativa](https://www.innovacioneduencb.ipn.mx/) - Data center infrastructure holders
+- [Escuela Nacional de Ciencias Biológicas](https://www.encb.ipn.mx/) - University (campus) where the project was developed
+- [Programa Institucional de Formación de Investigadores](https://pifi.ipn.mx/) - Scolarship benefactor
+- [Instituto Politécnico Nacional](https://www.ipn.mx/) - Main university
 
 <p align="center">
   <img src="./web/imgs/evlogo.png" alt="EVASEAC logo"/>
