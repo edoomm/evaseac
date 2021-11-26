@@ -9,19 +9,19 @@
 This API allows you to manage your Google Drive within a C# application. Among all the features you can do with this API, this app uses it to **create**, **enable link sharing** and **selecting files** within a Google Drive account.
 
 ## How to enable it?
-You should go to [this link](https://console.developers.google.com/start/api?id=drive) and choose the Google account you want to use for using its Google Drive. Then accept the terms of service and click on agree and continue as shown below.
+You should go to [this link](https://console.developers.google.com/start/api?id=drive) and choose the Google account you want to use for using its Google Drive. Then accept the terms of service and click on agree and create a new project, and click on next.
 
-![accept-terms!](https://lh3.googleusercontent.com/pw/ACtC-3f62Nzk6WPFf2SX5cUmYyVe1HEjs1uyvPTlQE962j0vSOQWEerczAgPp7-aq6UBIFkBV2z0W258V_DN0SNiyznrj4hU92UAEHuotE4c5pk8Tq5qesHpdlk_BETTNPvSLkH6wyZCAGai7dz8jPBx6xs=w455-h329-no?authuser=2)
+![image](https://user-images.githubusercontent.com/57675992/143512159-59c84a27-3584-42dc-a6fa-462ceea9977b.png)
 
-Then the following window will appear and you have to click on the button.
+Then, the API must be enabled
 
-![go-to-credentials!](https://lh3.googleusercontent.com/pw/ACtC-3c0fiwtTpEHFp62Xi2LgPFHfzEd5-P5Dl9ncngDv84W84cseLFHixNqHXoHILmzN3Q5okETGa2CWLaCNcoewX1ilBSD_t494a-fzRplJg_ZHSwDF4wr0FUy7fx7RCJXH1BDkgl51jfVqPecZuxtP-4=w391-h126-no?authuser=2)
+![image](https://user-images.githubusercontent.com/57675992/143512239-f2df8deb-f221-413c-832a-fa8497e89dfb.png)
 
-When you are in the credentials dashboard you need to click the cancel button at the very bottom of the page.
+After API is successfully enabled, go to the side menu and go to credentials.
 
-![credentials-dashboard!](https://lh3.googleusercontent.com/pw/ACtC-3exlrZOtruLmORG2AqUGHNa4gI7PdvtYSRlHAAOlxKkwEB4SdrkKzjTlQ925-ls56NuabihpDEO_CU8zMYv5lYTFZiitdfVZE18i_tQkqfgx7Bus3XzEEmpgXdDy6KJRdyJnhC9p-dKq-4pUHbDp2s=w1079-h708-no?authuser=2)
+![image](https://user-images.githubusercontent.com/57675992/143512365-df029708-2b90-4e4a-9837-2a5ad0013032.png)
 
-After clicking the `cancel` button you need to create the OAuth consent screen.
+Afterwards you need to create the OAuth consent screen.
 
 ![cred-oauth](https://lh3.googleusercontent.com/pw/ACtC-3czwdvhKOCsNJRjhXKr9Y1rnzk9HJ7YY4bSxT5hz116h9ZAPhblnEwlvjSZ8QxEbi74aVvFLedzLVYfhTux4GJMUJgxpds-GulWcWLiNtlFpQlK80YWVW6cH9kzY7sxftH8n5ZZyo_Yv5pH0LhcoTk=w1079-h606-no?authuser=2)
 
@@ -59,6 +59,11 @@ Then the credantial should be created like it's shown in the image below
 After this, you can download your **client_secret.json**. **It will have another name, BUT YOU SHOULD RENAME IT AS** "client_secret.json" **and save it** in this directory: `evaseac\app\Evaseac\bin\Debug\`
 
 ![download-oauth!](https://lh3.googleusercontent.com/pw/ACtC-3cn0EAIEk4UxfduUpDcsSz4OLe9r-skeo_zvx5t07F2lweEfpsd3VH8PsfEfQ0CLF1LHgl9SKUjMaMaQCzg1TmJWvugM47ETNpgw6LSJi_O4PTG2Rzl7pkJfl5YvH9F1TyhvSilCN3CI-k9XPqEApI=w1080-h578-no?authuser=2)
+
+The developer's email is the only one that can use the APP, so test users should be added.
+
+![image](https://user-images.githubusercontent.com/57675992/143514856-f88e2a34-c65b-4629-98e1-e19de4a6df37.png)
+
 
 # Set/Reset token
 If you would want to reset your GDAPIv3 genereted token while debugging, you should go to the following directory: `evaseac\app\Evaseac\bin\Debug\` and in there you should delete the `token.json` and `client_secret.json` and save the newer `client_secret.json` there for debugging.
