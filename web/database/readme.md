@@ -8,9 +8,9 @@ The code has a structure as described below:
   define("SYS_ID", "default");
 
   function open_database() {
-    $host = "●●●●●●";
-    $uid = "●●●●●●";
-    $pwd = "●●●●●●";
+    $host = "database";
+    $uid = "root";
+    $pwd = "tiger";
     $database = "●●●●●●";
     $port = "●●●●●●";
 
