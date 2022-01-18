@@ -25,7 +25,6 @@ namespace Evaseac
                 lblTaxon.Text = "Clase";
                 this.Text = "Insertar clase del orden no identificado";
 
-                cboTaxon.Items.AddRange(new object[] { "no identificado" });
                 DataTable xClass = DB.Select("SELECT Nombre FROM Clase WHERE Nombre <> 'no identificado' ORDER BY Nombre");
                 for (int i = 0; i < xClass.Rows.Count; i++)
                     cboTaxon.Items.AddRange(new object[] { xClass.Rows[i][0] });

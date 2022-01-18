@@ -121,7 +121,6 @@ namespace Evaseac.User_Controls
                 DataTable xFam = DB.Select("SELECT Nombre FROM Familia WHERE Nombre <> 'no identificado' ORDER BY Nombre");
                 DataTable xGenre = DB.Select("SELECT Nombre FROM Genero WHERE Nombre <> 'no identificado' ORDER BY Nombre");
 
-                cboClass.Items.AddRange(new object[] { "no identificado" });
                 cboOrder.Items.AddRange(new object[] { "no identificado" });
 
                 int i;
