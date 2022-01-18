@@ -260,6 +260,7 @@ namespace Evaseac
         private void NbtnSave_Click(object sender, EventArgs e)
         {
             if (NtxtName.Text != "" && NcboProject.SelectedIndex != -1 && NcboState.SelectedIndex != -1 && NtxtAbb.Text != "" && NtxtRiverS.Text != "" && NtxtNorthCoor.Text != "" && NtxtWestCoor.Text != "" && NtxtAltitude.Text != "")
+            {
                 if (DB.Select("SELECT ID FROM Sitio WHERE nombre = '" + NtxtName.Text + "'").Rows.Count == 0)
                 {
                     DB.Insert("INSERT INTO Sitio (Nombre, Estado, IdProyecto, Abreviatura, RioCuenca, Norte, Oeste, Altitud)"
@@ -268,9 +269,18 @@ namespace Evaseac
                     NClearText();
                 }
                 else
+                {
                     MessageBox.Show("El nombre del sitio ya existe\nVuelva a intentarlo con un diferente nombre", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
             else
+            {
                 MessageBox.Show("Ingrese todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (NcboState.SelectedItem == null)
+                    NcboState.Text = null;
+                if (NcboProject.SelectedItem == null)
+                    NcboProject.Text = null;
+            }
         }
 
             //Edit
@@ -391,7 +401,12 @@ namespace Evaseac
                 if (ScboState.Text == "" && ScboProject.Text == "")
                     LoadSites();
             }
+            else if (tabSite.SelectedIndex == 1)
+            {
+                // Perform actions to prevent not selected items
+            }
             else if (tabSite.SelectedIndex == 2)
+            {
                 if (EcboSrchProject.Text == "")
                 {
                     EcboSrchSite.Text = "";
@@ -403,6 +418,7 @@ namespace Evaseac
                     EClearText();
                     EpnlEdit.Enabled = false;
                 }
+            }
         }
 
         private void Textbox_KeyPress(object sender, KeyPressEventArgs e)
