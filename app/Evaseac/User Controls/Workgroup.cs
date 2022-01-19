@@ -384,7 +384,7 @@ namespace Evaseac.User_Controls
             if (dtMembers != null)
                 dtMembers.Clear();
 
-            dtMembers = DB.Select("SELECT M.Etiqueta AS Miembro, CASE WHEN M.Puesto IS NULL THEN 'Sin puesto asignado' ELSE M.Puesto END AS Puesto, CASE WHEN M.Correo IS NULL THEN 'Sin correo asignado' ELSE M.Correo END AS Correo, CASE WHEN M.IdArea IS NULL THEN 'Sin area asignada' ELSE A.Nombre END AS Area FROM Miembro AS M, Area AS A WHERE M.IdArea = A.ID OR M.IdArea IS NULL GROUP BY M.Etiqueta");
+            dtMembers = DB.Select("SELECT M.Etiqueta AS Miembro, CASE WHEN M.Puesto IS NULL THEN 'Sin puesto asignado' ELSE M.Puesto END AS Puesto, CASE WHEN M.Correo IS NULL THEN 'Sin correo asignado' ELSE M.Correo END AS Correo, CASE WHEN M.IdArea IS NULL THEN 'Sin area asignada' ELSE A.Nombre END AS Area FROM Miembro AS M, Area AS A WHERE M.IdArea = A.ID OR M.IdArea IS NULL GROUP BY Miembro, Puesto, Correo, Area");
             dgvAmMembers.DataSource = dtMembers;
 
             dgvAmMembers.ClearSelection();
