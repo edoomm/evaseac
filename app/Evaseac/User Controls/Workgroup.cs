@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Evaseac.Validation;
 using System.Net;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Evaseac.User_Controls
 {
@@ -699,17 +700,43 @@ namespace Evaseac.User_Controls
             //dgvApPapers.ClearSelection();
         }
 
-        private void btnApChooseDriveFile_Click(object sender, EventArgs e)
-        {
-            APIv3.IntializeGDApi();
+        private async Task<int> DummyAsync(int milliseconds) {
+            await Task.Delay(milliseconds);
+            return milliseconds;
+        }
 
-            using (frmGoogleDriveFiles form = new frmGoogleDriveFiles())
+        private async void btnApChooseDriveFile_Click(object sender, EventArgs e)
+        {
+            var notification1 = new Boxes.Generic("aaaa", showTextbox: false, showAccept: false);
+
+            //var task1 = notification1.ShowAsync();
+            var task1 = notification1.ShowAsync();
+            var task2 = DummyAsync(1500);
+            var tasks = new List<Task>() { task1, task2 };
+            while (tasks.Count > 0)
             {
-                if (form.ShowDialog() == DialogResult.OK)
+                Task finished = await Task.WhenAny(tasks);
+                if (finished == task1)
                 {
-                    lnkApDrivePaper.Text = form.GetLink().Replace("?usp=drivesdk", "");
+                    Messages.Log("Dialog exited, cancel intialization");
                 }
+                else if (finished == task2)
+                {
+                    Messages.Log("Intialization finished, close dialog");
+                    // TODO: Cancel task
+                    notification1.Close();
+                }
+                tasks.Remove(finished);
             }
+            //APIv3.IntializeGDApiAsync();
+
+            //using (frmGoogleDriveFiles form = new frmGoogleDriveFiles())
+            //{
+            //    if (form.ShowDialog() == DialogResult.OK)
+            //    {
+            //        lnkApDrivePaper.Text = form.GetLink().Replace("?usp=drivesdk", "");
+            //    }
+            //}
         }
         private void btnApUploadDrivePaper_Click(object sender, EventArgs e)
         {

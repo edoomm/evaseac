@@ -75,7 +75,8 @@ namespace Evaseac.Boxes
             // 
             // Panel
             // 
-            this.Panel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.Panel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel.BackColor = System.Drawing.SystemColors.Control;
             this.Panel.Controls.Add(this.btnCancel);
             this.Panel.Controls.Add(this.btnAccept);
@@ -115,6 +116,7 @@ namespace Evaseac.Boxes
             this.Name = "Generic";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Generic_FormClosed);
             this.Panel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -58,6 +58,11 @@ namespace Evaseac.User.Google_Drive
             }
         }
 
+        public static void GetServiceAsync()
+        {
+
+        }
+
         /// <summary>
         /// Intializes the Google Drive API v3 if it has not been used before
         /// </summary>
@@ -65,6 +70,11 @@ namespace Evaseac.User.Google_Drive
         {
             if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "token.json\\"))
                 GetService();
+        }
+
+        public static void IntializeGDApiAsync()
+        {
+
         }
 
         // Managing files methods
