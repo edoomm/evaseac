@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -67,7 +68,7 @@ namespace Evaseac.Boxes
         {
             taskCompletion = new TaskCompletionSource<bool>();
             base.Show();
-            await taskCompletion.Task; // Dialog exited
+            await taskCompletion.Task;
             return true;
         }
 

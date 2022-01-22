@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 
@@ -25,21 +26,36 @@ namespace Evaseac.User.Google_Drive
         /// <returns>A DriveService service</returns>
         private static DriveService GetService()
         {
+            return GetService(CancellationToken.None);
+        }
+
+        private static DriveService GetService(CancellationToken cancellationToken)
+        {
             try
             {
-                UserCredential credential;
+                UserCredential credential = null;
 
                 using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
                 {
                     // The file token.json stores the user's access and refresh tokens, and is created
                     // automatically when the authorization flow completes for the first time.
                     string credPath = "token.json";
-                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        GoogleClientSecrets.Load(stream).Secrets,
-                        Scopes,
-                        "user",
-                        CancellationToken.None,
-                        new FileDataStore(credPath, true)).Result;
+
+                    var thread = new Thread(() =>
+                        credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                            GoogleClientSecrets.Load(stream).Secrets,
+                            Scopes,
+                            "user",
+                            cancellationToken,
+                            new FileDataStore(credPath, true)).Result
+                    )
+                    { IsBackground = false };
+
+                    thread.Start();
+                    if (!thread.Join(60000))
+                    {
+                        throw new Exception("Timeout exception");
+                    }
                 }
 
                 // Create Drive API service.
@@ -58,23 +74,19 @@ namespace Evaseac.User.Google_Drive
             }
         }
 
-        public static void GetServiceAsync()
-        {
-
-        }
-
         /// <summary>
         /// Intializes the Google Drive API v3 if it has not been used before
         /// </summary>
         public static void IntializeGDApi()
         {
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "token.json\\"))
-                GetService();
+            IntializeGDApi(CancellationToken.None);
         }
 
-        public static void IntializeGDApiAsync()
+        public static Task<bool> IntializeGDApi(CancellationToken cancellationToken)
         {
-
+            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "token.json\\"))
+                GetService(cancellationToken);
+            return Task.FromResult(true);
         }
 
         // Managing files methods
