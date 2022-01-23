@@ -23,4 +23,4 @@ In the next table a quick overview of the content of the website documentation i
 
 | Overview |
 |:---------|
-| [**Database cs file**](/docs/web/evaseacdb.php.md)<br>This is the file where the connection to the MySQL Database is done. It can change due to credentials, but a structure of the file is provided in order to create your own evaseacdb.php file. |
+| [**Database php file**](/docs/web/evaseacdb.php.md)<br>This is the file where the connection to the MySQL Database is done. It can change due to credentials, but a structure of the file is provided in order to create your own evaseacdb.php file. |
