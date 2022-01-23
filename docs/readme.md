@@ -9,6 +9,7 @@ Some documentation is named without the underscore convention, these files repre
     - [Google Drive API v3](#google-Drive-API-v3)
 - [Website documentation](#website-documentation)
     - [Database php file](#database-php-file)
+- [Contributing](#contributing)
 
 ## [Desktop application documentation](/docs/app/)
 Below you can find a quick description of the content of the files.
@@ -24,3 +25,6 @@ In the next table a quick overview of the content of the website documentation i
 | Overview |
 |:---------|
 | [**Database php file**](/docs/web/evaseacdb.php.md)<br>This is the file where the connection to the MySQL Database is done. It can change due to credentials, but a structure of the file is provided in order to create your own evaseacdb.php file. |
+
+## [Contributing](/docs/contributing/)
+For now the only contribution that can be made is by creating issues, the guideline can be found [here](/docs/contributing/issues.md)
