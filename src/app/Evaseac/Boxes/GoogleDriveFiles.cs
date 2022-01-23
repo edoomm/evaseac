@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
-using Evaseac.Properties;
 using Evaseac.User.Google_Drive;
+using Evaseac.Validation;
 
 namespace Evaseac.Boxes
 {

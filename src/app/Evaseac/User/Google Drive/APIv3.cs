@@ -27,19 +27,31 @@ namespace Evaseac.User.Google_Drive
         {
             try
             {
-                UserCredential credential;
+                UserCredential credential = null;
 
                 using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
                 {
                     // The file token.json stores the user's access and refresh tokens, and is created
                     // automatically when the authorization flow completes for the first time.
                     string credPath = "token.json";
-                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    // Temporary solution for timeout authorization
+                    Thread thread = new Thread(() =>
+                    {
+                        credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.Load(stream).Secrets,
                         Scopes,
                         "user",
                         CancellationToken.None,
                         new FileDataStore(credPath, true)).Result;
+                    })
+                    { IsBackground = true };
+
+                    thread.Start();
+                    if (!thread.Join(3000))
+                    {
+                        Validation.ControlValidation.ShowInformationMessage("Complete la autenticación de Google en el navegador web, con la cuenta donde se obtuvo las credenciales.\n\nSi no se completa esta acción, la aplicación continuará pidiendo la autenticación y hasta no hacerla de manera correcta, no se podrán usar los servicios de Google Drive");
+                        return null;
+                    }
                 }
 
                 // Create Drive API service.
@@ -59,13 +71,11 @@ namespace Evaseac.User.Google_Drive
         }
 
         /// <summary>
-        /// Intializes the Google Drive API v3 if it has not been used before
+        /// Verifies if the Google Drive Service is up
         /// </summary>
-        public static void IntializeGDApi()
-        {
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "token.json\\"))
-                GetService();
-        }
+        /// <returns><code>true</code> when the service is up<code>false</code>otherwise</returns>
+        public static bool VerifyService() =>
+            true ? GetService() != null : false;
 
         // Managing files methods
 
@@ -304,9 +314,16 @@ namespace Evaseac.User.Google_Drive
         /// <returns>Without parameters, it returns the root folder ID</returns>
         public static string GetFolderId()
         {
-            var request = GetService().Files.Get("root");
-            request.Fields = "id";
-            return request.Execute().Id;
+            try
+            {
+                var request = GetService().Files.Get("root");
+                request.Fields = "id";
+                return request.Execute().Id;
+            }
+            catch
+            {
+                throw new Exception("Cannot connect to Google Drive service");
+            }
         }
 
         /// <summary>

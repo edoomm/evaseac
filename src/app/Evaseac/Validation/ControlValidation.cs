@@ -14,7 +14,7 @@ namespace Evaseac.Validation
         private static readonly string NoValidControlsMessage = "Ningún control ha sido llenado correctamente";
 
         /// <summary>
-        /// Displays a simple error message through <c>MessageBox.Show()</c>
+        /// Displays a simple error message through <see cref="MessageBox.Show(string, string, MessageBoxButtons, MessageBoxIcon)"/>
         /// </summary>
         /// <param name="errorMessage">The error message to be displayed</param>
         /// <returns>Always returns <c>false</c></returns>
@@ -23,6 +23,22 @@ namespace Evaseac.Validation
             MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return false;
         }
+
+        /// <summary>
+        /// Displays a simple warning message through <see cref="MessageBox.Show(string, string, MessageBoxButtons, MessageBoxIcon)"/>
+        /// </summary>
+        /// <param name="warningMessage">The warning message to be displayed</param>
+        /// <returns>Always returns <c>false</c></returns>
+        public static void ShowWarningMessage(string warningMessage, string warningTitle = "Advertencia") =>
+            MessageBox.Show(warningMessage, warningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+        /// <summary>
+        /// Displays a simple info message through <see cref="MessageBox.Show(string, string, MessageBoxButtons, MessageBoxIcon)"/>
+        /// </summary>
+        /// <param name="infoMessage">The info message to be displayed</param>
+        /// <returns>Always returns <c>false</c></returns>
+        public static void ShowInformationMessage(string infoMessage, string infoTitle = "Informacion") =>
+            MessageBox.Show(infoMessage, infoTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         /// <summary>
         /// Validates if strings are not empty or null and displays the error messages

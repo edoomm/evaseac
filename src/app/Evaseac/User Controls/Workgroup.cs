@@ -701,7 +701,8 @@ namespace Evaseac.User_Controls
 
         private void btnApChooseDriveFile_Click(object sender, EventArgs e)
         {
-            APIv3.IntializeGDApi();
+            if (!APIv3.VerifyService())
+                return;
 
             using (frmGoogleDriveFiles form = new frmGoogleDriveFiles())
             {
@@ -713,6 +714,9 @@ namespace Evaseac.User_Controls
         }
         private void btnApUploadDrivePaper_Click(object sender, EventArgs e)
         {
+            if (!APIv3.VerifyService())
+                return;
+
             // First gets path file
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "PDF Files (*.pdf) | *.pdf";
@@ -722,8 +726,8 @@ namespace Evaseac.User_Controls
 
             string filePath = openFileDialog.FileName;
 
-            // Google Drive process
-            APIv3.IntializeGDApi();
+            //// Google Drive process
+            //APIv3.IntializeGDApi();
 
             string gdPath = Settings.Default.GoogleDrive[0];
             DialogResult result = MessageBox.Show("¿Desea guardar el archivo en la siguiente dirección de su Google Drive?\nDireccion: " + gdPath, "Info", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
